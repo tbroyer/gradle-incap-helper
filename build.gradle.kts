@@ -11,7 +11,7 @@ plugins {
     id("net.ltgt.errorprone-javacplugin") version "0.2" apply false
 }
 
-version = "HEAD-SNAPSHOT"
+version = VersionFromGit(project, "HEAD-SNAPSHOT")
 
 repositories {
     mavenCentral()

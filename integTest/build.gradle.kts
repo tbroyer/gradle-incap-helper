@@ -40,7 +40,7 @@ publishing {
 }
 
 val test by tasks.getting(Test::class) {
-    systemProperty("version", rootProject.version)
+    systemProperty("version", rootProject.version.toString())
 
     dependsOn("publishLibPublicationToTestRepository", "publishProcessorPublicationToTestRepository")
 }
