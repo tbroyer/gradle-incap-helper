@@ -1,8 +1,10 @@
 plugins {
     id("local.java-library")
+    id("local.maven-publish")
 }
 
 base.archivesBaseName = "incap-processor"
+description = "Helper annotation processor for building incremental annotation processors"
 
 repositories {
     mavenCentral()
