@@ -1,5 +1,8 @@
 plugins {
     `java-gradle-plugin`
     `kotlin-dsl`
+    `kotlin-dsl-precompiled-script-plugins`
 }
-apply<org.gradle.kotlin.dsl.plugins.precompiled.PrecompiledScriptPlugins>()
+repositories {
+    mavenCentral()
+}

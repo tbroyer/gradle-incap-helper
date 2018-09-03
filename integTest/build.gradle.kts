@@ -10,8 +10,6 @@ repositories {
 dependencies {
     testImplementation("junit:junit:4.12")
     testImplementation(gradleTestKit())
-
-    testRuntimeOnly(configurations.embeddedKotlin)
 }
 
 evaluationDependsOn(":lib")
@@ -39,8 +37,10 @@ publishing {
     }
 }
 
-val test by tasks.getting(Test::class) {
-    systemProperty("version", rootProject.version.toString())
+tasks {
+    "test"(Test::class) {
+        systemProperty("version", rootProject.version.toString())
 
-    dependsOn("publishLibPublicationToTestRepository", "publishProcessorPublicationToTestRepository")
+        dependsOn("publishLibPublicationToTestRepository", "publishProcessorPublicationToTestRepository")
+    }
 }

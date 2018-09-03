@@ -7,7 +7,7 @@ plugins {
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 if (JavaVersion.current().isJava9Compatible) {
-    tasks.withType<JavaCompile> {
+    tasks.withType<JavaCompile>().configureEach {
         options.compilerArgs.addAll(listOf("--release", java.targetCompatibility.majorVersion))
     }
 }
@@ -21,9 +21,11 @@ dependencies {
     "errorproneJavac"("com.google.errorprone:javac:9+181-r4173-1")
 }
 
-val javadoc by tasks.getting(Javadoc::class) {
-    (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)
+tasks {
+    "javadoc"(Javadoc::class) {
+        (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)
+    }
 }
 
-inline val Project.java: JavaPluginConvention
+inline val Project.java: JavaPluginExtension
     get() = the()

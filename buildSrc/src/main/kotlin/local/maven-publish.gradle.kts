@@ -10,15 +10,15 @@ if (project != rootProject) {
     version = rootProject.version
 }
 
-val javadoc by tasks
-val javadocJar by tasks.creating(Jar::class) {
+val javadoc by tasks.existing
+val javadocJar by tasks.registering(Jar::class) {
     classifier = "javadoc"
     from(javadoc)
 }
 
-val sourcesJar by tasks.creating(Jar::class) {
+val sourcesJar by tasks.registering(Jar::class) {
     classifier = "sources"
-    from(java.sourceSets["main"].allSource)
+    from(sourceSets["main"].allSource)
 }
 
 val sonatypeRepository = publishing.repositories.maven {
@@ -38,8 +38,9 @@ val mavenPublication = publishing.publications.create<MavenPublication>("maven")
         artifactId = requireNotNull(base.archivesBaseName)
     }
 
-    artifact(javadocJar)
-    artifact(sourcesJar)
+    // https://github.com/gradle/gradle-native/issues/723
+    artifact(javadocJar.get())
+    artifact(sourcesJar.get())
 
     pom {
         name.set(provider { "$groupId:$artifactId" })
@@ -65,7 +66,7 @@ val mavenPublication = publishing.publications.create<MavenPublication>("maven")
     }
 }
 
-tasks.withType<PublishToMavenRepository> {
+tasks.withType<PublishToMavenRepository>().configureEach {
     onlyIf { if (repository == sonatypeRepository) publication == mavenPublication else true }
 }
 
@@ -80,7 +81,7 @@ inline val Project.isSnapshot
 
 inline val Project.base: BasePluginConvention
     get() = the()
-inline val Project.java: JavaPluginConvention
+inline val Project.sourceSets: SourceSetContainer
     get() = the()
 inline val Project.publishing: PublishingExtension
     get() = the()
