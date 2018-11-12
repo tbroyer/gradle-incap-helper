@@ -109,7 +109,8 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
       try (PrintWriter out =
           new PrintWriter(
               new OutputStreamWriter(fileObject.openOutputStream(), StandardCharsets.UTF_8))) {
-        processors.forEach((processor, type) -> out.println(processor + "," + type.name()));
+        processors.forEach(
+            (processor, type) -> out.println(processor + "," + type.name().toLowerCase()));
         if (out.checkError()) {
           throw new IOException("Error writing to the file");
         }
