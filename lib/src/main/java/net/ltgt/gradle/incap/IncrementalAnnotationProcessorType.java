@@ -46,6 +46,6 @@ public enum IncrementalAnnotationProcessorType {
     if (!hasProcessorOption) {
       throw new UnsupportedOperationException();
     }
-    return "org.gradle.annotation.compile." + name().toLowerCase(Locale.ROOT);
+    return "org.gradle.annotation.processing." + name().toLowerCase(Locale.ROOT);
   }
 }
