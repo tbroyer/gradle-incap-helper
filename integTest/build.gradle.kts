@@ -39,6 +39,8 @@ publishing {
 
 tasks {
     "test"(Test::class) {
+        inputs.files(project(":lib").tasks.named("jar"), project(":processor").tasks.named("jar"))
+
         systemProperty("version", rootProject.version.toString())
 
         dependsOn("publishLibPublicationToTestRepository", "publishProcessorPublicationToTestRepository")
