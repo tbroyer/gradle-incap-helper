@@ -51,6 +51,20 @@ public class IncrementalAnnotationProcessorProcessorTest {
   }
 
   @Test
+  public void dynamicWithoutSupportedOptions() {
+    final JavaFileObject dynamicWithoutSupportedOptions =
+        JavaFileObjects.forResource("test/bad/DynamicWithoutSupportedOptions.java");
+    assertThat(dynamicWithoutSupportedOptions)
+        .processedWith(new IncrementalAnnotationProcessorProcessor())
+        .compilesWithoutError()
+        .withWarningContaining(
+            "Dynamic incremental annotation processor should override getSupportedOptions()")
+        .in(dynamicWithoutSupportedOptions)
+        .onLine(25)
+        .atColumn(1);
+  }
+
+  @Test
   public void annotatedAbstractClass() {
     final JavaFileObject annotatedAbstractClass =
         JavaFileObjects.forResource("test/bad/AnnotatedAbstractClass.java");

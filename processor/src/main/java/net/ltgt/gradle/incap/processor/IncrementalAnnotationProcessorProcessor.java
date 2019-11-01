@@ -32,6 +32,8 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
@@ -47,6 +49,7 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
       IncrementalAnnotationProcessor.class.getCanonicalName();
   private static final String ANNOTATION_SIMPLE_NAME =
       IncrementalAnnotationProcessor.class.getSimpleName();
+  private static final String GET_SUPPORTED_OPTIONS = "getSupportedOptions";
 
   static final String RESOURCE_FILE = "META-INF/gradle/incremental.annotation.processors";
 
@@ -87,14 +90,33 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
   private void processAnnotations(RoundEnvironment roundEnv) {
     TypeElement processor =
         processingEnv.getElementUtils().getTypeElement(Processor.class.getCanonicalName());
+    TypeElement abstractProcessor =
+        processingEnv.getElementUtils().getTypeElement(AbstractProcessor.class.getCanonicalName());
     for (Element e : roundEnv.getElementsAnnotatedWith(IncrementalAnnotationProcessor.class)) {
       if (!checkAnnotatedElement(e, processor)) {
         continue;
       }
       IncrementalAnnotationProcessorType processorType =
           e.getAnnotation(IncrementalAnnotationProcessor.class).value();
-      // XXX: test that getSupportedOptions is not inherited from AbstractProcessor if processorType
-      // is DYNAMIC?
+      if (processorType == IncrementalAnnotationProcessorType.DYNAMIC
+          && processingEnv.getTypeUtils().isSubtype(e.asType(), abstractProcessor.asType())) {
+        Element getSupportedOptions =
+            processingEnv.getElementUtils().getAllMembers((TypeElement) e).stream()
+                .filter(
+                    method ->
+                        method.getKind() == ElementKind.METHOD
+                            && method.getSimpleName().contentEquals(GET_SUPPORTED_OPTIONS)
+                            && ((ExecutableElement) method).getParameters().isEmpty())
+                .findFirst()
+                .orElseThrow(AssertionError::new);
+        if (abstractProcessor.equals(getSupportedOptions.getEnclosingElement())) {
+          warning(
+              "Dynamic incremental annotation processor should override "
+                  + GET_SUPPORTED_OPTIONS
+                  + "()",
+              e);
+        }
+      }
       processors.put(
           processingEnv.getElementUtils().getBinaryName((TypeElement) e).toString(), processorType);
     }
@@ -152,9 +174,15 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
   }
 
   private void error(String msg, Element element) {
-    processingEnv
-        .getMessager()
-        .printMessage(Kind.ERROR, msg, element, getAnnotationMirror(element));
+    message(Kind.ERROR, msg, element);
+  }
+
+  private void warning(String msg, Element element) {
+    message(Kind.WARNING, msg, element);
+  }
+
+  private void message(Kind kind, String msg, Element element) {
+    processingEnv.getMessager().printMessage(kind, msg, element, getAnnotationMirror(element));
   }
 
   private AnnotationMirror getAnnotationMirror(Element element) {
