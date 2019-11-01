@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
  * Describes the type of incremental annotation processing the annotated processor is capable of.
  *
  * <p>This annotation must be placed on a concrete class implementing {@link
- * javax.annotation.processing.Processor}. A processor described as {@link
+ * javax.annotation.processing.Processor}. A processor described as {@linkplain
  * IncrementalAnnotationProcessorType#DYNAMIC dynamic} will have to implement {@link
  * javax.annotation.processing.Processor#getSupportedOptions getSupportedOptions} returning zero or
  * one of the {@linkplain IncrementalAnnotationProcessorType#getProcessorOption() predefined
