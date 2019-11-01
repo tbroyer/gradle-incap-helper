@@ -1,5 +1,5 @@
-import nl.javadude.gradle.plugins.license.LicenseExtension
 import java.time.Year
+import nl.javadude.gradle.plugins.license.LicenseExtension
 
 plugins {
     base
@@ -18,7 +18,7 @@ repositories {
 }
 
 googleJavaFormat {
-    toolVersion = "1.6"
+    toolVersion = "1.7"
 }
 
 subprojects {
@@ -39,14 +39,14 @@ subprojects {
 val ktlint by configurations.creating
 
 dependencies {
-    ktlint("com.github.shyiko:ktlint:0.27.0")
+    ktlint("com.pinterest:ktlint:0.35.0")
 }
 
 tasks {
     val verifyKtlint by registering(JavaExec::class) {
         description = "Check Kotlin code style."
         classpath = ktlint
-        main = "com.github.shyiko.ktlint.Main"
+        main = "com.pinterest.ktlint.Main"
         args("**/*.gradle.kts", "**/*.kt", "!**/build/**")
     }
 
@@ -57,7 +57,7 @@ tasks {
     register("ktlint", JavaExec::class) {
         description = "Fix Kotlin code style violations."
         classpath = ktlint
-        main = "com.github.shyiko.ktlint.Main"
+        main = "com.pinterest.ktlint.Main"
         args("-F", "**/*.gradle.kts", "**/*.kt", "!**/build/**")
     }
 }

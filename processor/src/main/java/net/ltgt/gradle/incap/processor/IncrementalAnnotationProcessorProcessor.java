@@ -155,9 +155,7 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
   }
 
   private AnnotationMirror getAnnotationMirror(Element element) {
-    return element
-        .getAnnotationMirrors()
-        .stream()
+    return element.getAnnotationMirrors().stream()
         .filter(
             annotationMirror ->
                 ((TypeElement) annotationMirror.getAnnotationType().asElement())
