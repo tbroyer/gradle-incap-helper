@@ -57,6 +57,9 @@ and return the appropriate value from your processor's `getSupportedOptions()` i
    ```
 
    </details>
+   
+   Note: it's OK to use `compileOnly` in Gradle, or the `provided` scope in Maven,
+   despite the annotation having class retention, because annotation processors aren't libraries that others compile against.
 
 2. Annotate your annotation processor with `@IncrementalAnnotationProcessor`
 

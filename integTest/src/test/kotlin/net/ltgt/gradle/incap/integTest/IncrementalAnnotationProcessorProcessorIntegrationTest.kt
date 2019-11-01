@@ -15,6 +15,7 @@
  */
 package net.ltgt.gradle.incap.integTest
 
+import com.google.common.truth.Truth.assertThat
 import java.io.File
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.util.TextUtil
@@ -55,7 +56,10 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         writeProcessor("AnotherProcessor", "ISOLATING", "test")
 
         // when
-        compileJava()
+        with(compileJava()) {
+            // compile once
+            assertThat(output).contains("Full recompilation is required because no incremental change information is available.")
+        }
 
         // then
         assertTrue(generatedResourceFile.exists())
@@ -68,7 +72,11 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         writeProcessor("SomeProcessor", "DYNAMIC", "test")
 
         // when
-        compileJava()
+        with(compileJava()) {
+            // then
+            assertThat(output).doesNotContain("Full recompilation is required ")
+            assertThat(output).contains("Incremental compilation of 1 classes completed")
+        }
 
         // then
         assertEquals(
@@ -112,7 +120,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
 
     private fun compileJava() = GradleRunner.create()
         .withProjectDir(testProjectDir.root)
-        .withArguments("compileJava")
+        .withArguments("--info", "compileJava")
         .build()
 
     private val generatedResourceFile

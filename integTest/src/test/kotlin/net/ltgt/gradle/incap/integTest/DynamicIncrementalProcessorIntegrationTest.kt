@@ -52,7 +52,7 @@ class DynamicIncrementalProcessorIntegrationTest {
         }
         with(compileJava()) {
             // then
-            assertThat(output).doesNotContainMatch("Full recompilation is required because .* is not incremental")
+            assertThat(output).doesNotContainMatch("Full recompilation is required ")
             assertThat(output).contains("Incremental compilation of 1 classes completed")
         }
 
@@ -189,6 +189,6 @@ class DynamicIncrementalProcessorIntegrationTest {
 
     private fun compileJava() = GradleRunner.create()
         .withProjectDir(testProjectDir.root)
-        .withArguments("--debug", "compileJava")
+        .withArguments("--info", "compileJava")
         .build()
 }
