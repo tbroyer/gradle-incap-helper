@@ -1,6 +1,7 @@
 package local
 
 plugins {
+    `java-library`
     `maven-publish`
     signing
 }
@@ -10,14 +11,13 @@ if (project != rootProject) {
     version = rootProject.version
 }
 
-val javadoc by tasks.existing
 val javadocJar by tasks.registering(Jar::class) {
-    classifier = "javadoc"
-    from(javadoc)
+    archiveClassifier.set("javadoc")
+    from(tasks.javadoc)
 }
 
 val sourcesJar by tasks.registering(Jar::class) {
-    classifier = "sources"
+    archiveClassifier.set("sources")
     from(sourceSets["main"].allSource)
 }
 
@@ -41,6 +41,15 @@ val mavenPublication = publishing.publications.create<MavenPublication>("maven")
     // https://github.com/gradle/gradle-native/issues/723
     artifact(javadocJar.get())
     artifact(sourcesJar.get())
+
+    versionMapping {
+        usage("java-api") {
+            fromResolutionOf("runtimeClasspath")
+        }
+        usage("java-runtime") {
+            fromResolutionResult()
+        }
+    }
 
     pom {
         name.set(provider { "$groupId:$artifactId" })
@@ -78,13 +87,3 @@ signing {
 
 inline val Project.isSnapshot
     get() = version.toString().endsWith("-SNAPSHOT")
-
-inline val Project.base: BasePluginConvention
-    get() = the()
-inline val Project.sourceSets: SourceSetContainer
-    get() = the()
-inline val Project.publishing: PublishingExtension
-    get() = the()
-
-fun Project.signing(configuration: SigningExtension.() -> Unit) =
-    configure(configuration)

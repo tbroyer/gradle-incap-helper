@@ -1,8 +1,11 @@
 plugins {
-    `java-gradle-plugin`
     `kotlin-dsl`
-    `kotlin-dsl-precompiled-script-plugins`
 }
+
 repositories {
     mavenCentral()
+}
+
+kotlinDslPluginOptions {
+    experimentalWarning.set(false)
 }

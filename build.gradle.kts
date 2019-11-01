@@ -3,11 +3,11 @@ import java.time.Year
 
 plugins {
     base
-    id("com.github.sherter.google-java-format") version "0.7.1"
+    id("com.github.sherter.google-java-format") version "0.8"
 
-    id("com.github.hierynomus.license") version "0.14.0" apply false
+    id("com.github.hierynomus.license") version "0.15.0" apply false
     // Used by "local.java-library"
-    id("net.ltgt.errorprone") version "0.6" apply false
+    id("net.ltgt.errorprone") version "1.1.1" apply false
 }
 
 version = VersionFromGit(project, "HEAD-SNAPSHOT")
@@ -47,10 +47,10 @@ tasks {
         description = "Check Kotlin code style."
         classpath = ktlint
         main = "com.github.shyiko.ktlint.Main"
-        args("**/*.gradle.kts", "**/*.kt")
+        args("**/*.gradle.kts", "**/*.kt", "!**/build/**")
     }
 
-    "check" {
+    check {
         dependsOn(verifyKtlint)
     }
 
@@ -58,7 +58,7 @@ tasks {
         description = "Fix Kotlin code style violations."
         classpath = ktlint
         main = "com.github.shyiko.ktlint.Main"
-        args("-F", "**/*.gradle.kts", "**/*.kt")
+        args("-F", "**/*.gradle.kts", "**/*.kt", "!**/build/**")
     }
 }
 

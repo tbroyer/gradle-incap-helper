@@ -2,8 +2,8 @@ package local
 
 plugins {
     `java-library`
-    id("net.ltgt.errorprone")
 }
+apply(plugin = "net.ltgt.errorprone")
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 if (JavaVersion.current().isJava9Compatible) {
@@ -22,10 +22,7 @@ dependencies {
 }
 
 tasks {
-    "javadoc"(Javadoc::class) {
+    javadoc {
         (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)
     }
 }
-
-inline val Project.java: JavaPluginExtension
-    get() = the()
