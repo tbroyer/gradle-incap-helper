@@ -32,6 +32,7 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.TypeElement;
 import javax.tools.Diagnostic.Kind;
 import javax.tools.FileObject;
@@ -143,7 +144,9 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
       return false;
     }
 
-    // XXX: test for concrete class?
+    if (e.getModifiers().contains(Modifier.ABSTRACT)) {
+      error("@" + ANNOTATION_SIMPLE_NAME + " annotated class must not be abstract", e);
+    }
 
     return true;
   }

@@ -51,6 +51,20 @@ public class IncrementalAnnotationProcessorProcessorTest {
   }
 
   @Test
+  public void annotatedAbstractClass() {
+    final JavaFileObject annotatedAbstractClass =
+        JavaFileObjects.forResource("test/bad/AnnotatedAbstractClass.java");
+    assertThat(annotatedAbstractClass)
+        .processedWith(new IncrementalAnnotationProcessorProcessor())
+        .failsToCompile()
+        .withErrorCount(1)
+        .withErrorContaining("@" + IncrementalAnnotationProcessor.class.getSimpleName())
+        .in(annotatedAbstractClass)
+        .onLine(25)
+        .atColumn(1);
+  }
+
+  @Test
   public void annotatedInterface() {
     final JavaFileObject annotatedInterface =
         JavaFileObjects.forResource("test/bad/AnnotatedInterface.java");
