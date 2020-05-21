@@ -11,14 +11,9 @@ if (project != rootProject) {
     version = rootProject.version
 }
 
-val javadocJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("javadoc")
-    from(tasks.javadoc)
-}
-
-val sourcesJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets["main"].allSource)
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 val sonatypeRepository = publishing.repositories.maven {
@@ -39,10 +34,6 @@ val mavenPublication = publishing.publications.create<MavenPublication>("maven")
     afterEvaluate {
         artifactId = requireNotNull(base.archivesBaseName)
     }
-
-    // https://github.com/gradle/gradle-native/issues/723
-    artifact(javadocJar.get())
-    artifact(sourcesJar.get())
 
     versionMapping {
         usage("java-api") {

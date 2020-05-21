@@ -8,8 +8,8 @@ repositories {
 }
 
 dependencies {
-    testImplementation("junit:junit:4.12")
-    testImplementation("com.google.truth:truth:1.0")
+    testImplementation("junit:junit:4.13")
+    testImplementation("com.google.truth:truth:1.0.1")
     testImplementation(gradleTestKit())
 }
 
