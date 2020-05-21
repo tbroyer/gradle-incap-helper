@@ -4,6 +4,7 @@ import nl.javadude.gradle.plugins.license.LicenseExtension
 plugins {
     base
     id("com.github.sherter.google-java-format") version "0.8"
+    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
 
     id("com.github.hierynomus.license") version "0.15.0" apply false
     // Used by "local.java-library"
@@ -36,29 +37,12 @@ subprojects {
     }
 }
 
-val ktlint by configurations.creating
+allprojects {
+    apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
-dependencies {
-    ktlint("com.pinterest:ktlint:0.36.0")
-}
-
-tasks {
-    val verifyKtlint by registering(JavaExec::class) {
-        description = "Check Kotlin code style."
-        classpath = ktlint
-        main = "com.pinterest.ktlint.Main"
-        args("**/*.gradle.kts", "**/*.kt", "!**/build/**")
-    }
-
-    check {
-        dependsOn(verifyKtlint)
-    }
-
-    register("ktlint", JavaExec::class) {
-        description = "Fix Kotlin code style violations."
-        classpath = ktlint
-        main = "com.pinterest.ktlint.Main"
-        args("-F", "**/*.gradle.kts", "**/*.kt", "!**/build/**")
+    ktlint {
+        version.set("0.36.0")
+        enableExperimentalRules.set(true)
     }
 }
 

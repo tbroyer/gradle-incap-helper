@@ -98,7 +98,8 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         ).run {
             parentFile.mkdirs()
             writeText(
-                """package ${packageNames.joinToString(separator = ".")};
+                """
+                package ${packageNames.joinToString(separator = ".")};
                 import static net.ltgt.gradle.incap.IncrementalAnnotationProcessorType.*;
 
                 import java.util.Set;
