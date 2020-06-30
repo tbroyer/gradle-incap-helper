@@ -16,7 +16,6 @@
 package net.ltgt.gradle.incap.integTest
 
 import com.google.common.truth.Truth.assertThat
-import java.io.File
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.util.TextUtil
 import org.junit.Assert.assertEquals
@@ -24,6 +23,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.File
 
 class IncrementalAnnotationProcessorProcessorIntegrationTest {
     @JvmField

@@ -16,12 +16,12 @@
 package net.ltgt.gradle.incap.integTest
 
 import com.google.common.truth.Truth.assertThat
-import java.io.File
 import org.gradle.testkit.runner.GradleRunner
 import org.gradle.util.TextUtil
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.File
 
 class DynamicIncrementalProcessorIntegrationTest {
     @JvmField
@@ -53,7 +53,9 @@ class DynamicIncrementalProcessorIntegrationTest {
         with(compileJava()) {
             // then
             assertThat(output).doesNotContainMatch("Full recompilation is required ")
-            assertThat(output).contains("Incremental compilation of 1 classes completed")
+            assertThat(output).contains("src/main/java/test/AnotherAnnotatedClass.java has been added")
+            assertThat(output).doesNotContain("src/main/java/test/AnnotatedClass.java")
+            assertThat(output).contains("Incremental compilation of 0 classes completed")
         }
 
         // when
@@ -70,11 +72,9 @@ class DynamicIncrementalProcessorIntegrationTest {
         with(compileJava()) {
             // then
             assertThat(output).doesNotContainMatch("Full recompilation is required because .* is not incremental")
-
-            // For some reason, second compilation counts 2 classes rather than 1,
-            assertThat(output).contains("Incremental compilation of 2 classes completed")
-            // …but this is not the other source file (probably the generated class?)
+            assertThat(output).contains("src/main/java/test/AnotherAnnotatedClass.java has changed")
             assertThat(output).doesNotContain("src/main/java/test/AnnotatedClass.java")
+            assertThat(output).contains("Incremental compilation of 2 classes completed")
         }
     }
 

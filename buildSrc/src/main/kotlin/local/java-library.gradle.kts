@@ -17,7 +17,7 @@ repositories {
 }
 
 dependencies {
-    "errorprone"("com.google.errorprone:error_prone_core:2.3.4")
+    "errorprone"("com.google.errorprone:error_prone_core:2.4.0")
     "errorproneJavac"("com.google.errorprone:javac:9+181-r4173-1")
 }
 

@@ -1,5 +1,5 @@
-import java.io.File
 import org.gradle.api.Project
+import java.io.File
 
 data class VersionFromGit(
     val project: Project,
