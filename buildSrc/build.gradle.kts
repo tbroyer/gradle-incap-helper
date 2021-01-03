@@ -2,6 +2,14 @@ plugins {
     `kotlin-dsl`
     id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
 }
+buildscript {
+    dependencyLocking {
+        lockAllConfigurations()
+    }
+}
+dependencyLocking {
+    lockAllConfigurations()
+}
 
 repositories {
     mavenCentral()

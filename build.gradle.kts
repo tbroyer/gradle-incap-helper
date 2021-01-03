@@ -14,6 +14,18 @@ plugins {
 
 version = VersionFromGit(project, "HEAD-SNAPSHOT")
 
+allprojects {
+    dependencyLocking {
+        lockAllConfigurations()
+        lockMode.set(LockMode.STRICT)
+    }
+}
+tasks {
+    register("allDependencies") {
+        dependsOn(getTasksByName("dependencies", true))
+    }
+}
+
 repositories {
     mavenCentral()
 }
