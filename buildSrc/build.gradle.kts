@@ -1,6 +1,6 @@
 plugins {
     `kotlin-dsl`
-    id("org.jlleitschuh.gradle.ktlint") version "9.2.1"
+    id("org.jlleitschuh.gradle.ktlint") version "9.4.1"
 }
 
 repositories {
@@ -12,7 +12,7 @@ kotlinDslPluginOptions {
 }
 
 ktlint {
-    version.set("0.37.2")
+    version.set("0.40.0")
     enableExperimentalRules.set(true)
     filter {
         exclude {
