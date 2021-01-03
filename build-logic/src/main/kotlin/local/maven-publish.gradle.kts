@@ -7,9 +7,6 @@ plugins {
 }
 
 group = "net.ltgt.gradle.incap"
-if (project != rootProject) {
-    version = rootProject.version
-}
 
 java {
     withJavadocJar()
@@ -73,7 +70,7 @@ val mavenPublication = createPublication("maven")
 
 tasks.withType<PublishToMavenRepository>().configureEach {
     if (repository == sonatypeRepository) {
-        onlyIf { publication == mavenPublication }
+        onlyIf { publication == mavenPublication && publication.version != Project.DEFAULT_VERSION }
     }
 }
 
@@ -84,7 +81,8 @@ signing {
 }
 
 inline val Project.isSnapshot
-    get() = version.toString().endsWith("-SNAPSHOT")
+    get() = version.toString().endsWith("-SNAPSHOT") || version == Project.DEFAULT_VERSION
+
 //
 // For integration tests
 //
