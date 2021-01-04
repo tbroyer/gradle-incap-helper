@@ -23,7 +23,6 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
-import java.util.SortedMap;
 import java.util.TreeMap;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
@@ -53,7 +52,7 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
 
   static final String RESOURCE_FILE = "META-INF/gradle/incremental.annotation.processors";
 
-  private final SortedMap<String, IncrementalAnnotationProcessorType> processors = new TreeMap<>();
+  private final TreeMap<String, IncrementalAnnotationProcessorType> processors = new TreeMap<>();
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {

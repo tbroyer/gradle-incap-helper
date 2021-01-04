@@ -22,6 +22,9 @@ dependencies {
 }
 
 tasks {
+    withType<JavaCompile>().configureEach {
+        options.compilerArgs.addAll(listOf("-Werror", "-Xlint:all"))
+    }
     javadoc {
         (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)
         if (JavaVersion.current().isJava9Compatible) {
