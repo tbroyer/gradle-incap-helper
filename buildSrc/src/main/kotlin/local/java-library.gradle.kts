@@ -4,6 +4,7 @@ plugins {
     `java-library`
 }
 apply(plugin = "net.ltgt.errorprone")
+apply(plugin = "net.ltgt.nullaway")
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 if (JavaVersion.current().isJava9Compatible) {
@@ -18,6 +19,7 @@ repositories {
 
 dependencies {
     "errorprone"("com.google.errorprone:error_prone_core:2.5.1")
+    "errorprone"("com.uber.nullaway:nullaway:0.8.0")
     "errorproneJavac"("com.google.errorprone:javac:9+181-r4173-1")
 }
 

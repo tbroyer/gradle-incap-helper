@@ -9,6 +9,7 @@ plugins {
     id("com.github.hierynomus.license") version "0.15.0" apply false
     // Used by "local.java-library"
     id("net.ltgt.errorprone") version "1.3.0" apply false
+    id("net.ltgt.nullaway") version "1.0.2" apply false
 }
 
 version = VersionFromGit(project, "HEAD-SNAPSHOT")

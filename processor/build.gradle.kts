@@ -6,6 +6,10 @@ plugins {
 base.archivesBaseName = "incap-processor"
 description = "Helper annotation processor for building incremental annotation processors"
 
+nullaway {
+    annotatedPackages.add("net.ltgt.gradle.incap.processor")
+}
+
 repositories {
     mavenCentral()
 }
