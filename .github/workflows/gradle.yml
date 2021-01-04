@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - '**/*.md'
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+
+# First build and test with JDK 11
+# Then run tests with JDK 8 and 15
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup environment
+        run: echo "JAVA_HOME=${JAVA_HOME_11_X64}" | tee -a $GITHUB_ENV
+
+      - name: Build with Gradle
+        id: gradle-build
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: --no-daemon build --stacktrace
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          dependencies-cache-key: '**/*gradle.lockfile'
+          dependencies-cache-exact: true
+
+      - name: Store reports
+        if: steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure'
+        uses: actions/upload-artifact@v2
+        with:
+          name: reports
+          path: |
+            **/build/reports/
+            **/build/test-results/
+
+  test-jdk:
+    needs: linux
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java: [ 8, 15 ]
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup JDK ${{ matrix.java }}
+        id: setup-test-java
+        if: matrix.java != 8
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+
+      - name: Setup JAVA_HOME_${{ matrix.java }}_X64 environment variable
+        if: matrix.java != 8
+        run: echo "JAVA_HOME_${{ matrix.java }}_X64=${{ steps.setup-test-java.outputs.path }}" | tee -a $GITHUB_ENV
+
+      - name: Setup environment
+        run: |
+          echo "JAVA_HOME=${JAVA_HOME_11_X64}" | tee -a $GITHUB_ENV
+          echo "org.gradle.java.installations.auto-download=false" | tee -a gradle.properties
+          echo "org.gradle.java.installations.fromEnv=JAVA_HOME_${{ matrix.java }}_X64" | tee -a gradle.properties
+
+      - name: Build with Gradle
+        id: gradle-build
+        uses: eskatos/gradle-command-action@v1
+        with:
+          arguments: --no-daemon test "-Ptest.java-toolchain=${{ matrix.java }}"
+          wrapper-cache-enabled: true
+          dependencies-cache-enabled: true
+          dependencies-cache-key: '**/*gradle.lockfile'
+          dependencies-cache-exact: true
+
+      - name: Store reports
+        if: steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure'
+        uses: actions/upload-artifact@v2
+        with:
+          name: jdk-${{ matrix.java }}-tests
+          path: |
+            **/build/reports/tests/test/
+            **/build/test-results/
