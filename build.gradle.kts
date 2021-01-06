@@ -15,7 +15,6 @@ version = VersionFromGit(project, "HEAD-SNAPSHOT")
 
 repositories {
     mavenCentral()
-    jcenter() // for ktlint's kolor dependency
 }
 
 googleJavaFormat {
