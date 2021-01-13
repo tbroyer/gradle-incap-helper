@@ -26,6 +26,20 @@ tasks {
     }
 }
 
+project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
+    subprojects {
+        pluginManager.withPlugin("java-base") {
+            tasks.withType<Test>().configureEach {
+                javaLauncher.set(
+                    project.the<JavaToolchainService>().launcherFor {
+                        languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
+                    }
+                )
+            }
+        }
+    }
+}
+
 repositories {
     mavenCentral()
 }
