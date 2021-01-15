@@ -68,23 +68,22 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
     try {
-      return processImpl(roundEnv);
+      processImpl(roundEnv);
     } catch (Exception e) {
       // We don't allow exceptions of any kind to propagate to the compiler
       StringWriter writer = new StringWriter();
       e.printStackTrace(new PrintWriter(writer));
       fatalError(writer.toString());
-      return true;
     }
+    return false;
   }
 
-  private boolean processImpl(RoundEnvironment roundEnv) {
+  private void processImpl(RoundEnvironment roundEnv) {
     if (roundEnv.processingOver()) {
       generateConfigFiles();
     } else {
       processAnnotations(roundEnv);
     }
-    return true;
   }
 
   private void processAnnotations(RoundEnvironment roundEnv) {
