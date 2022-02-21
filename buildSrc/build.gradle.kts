@@ -16,10 +16,6 @@ repositories {
     gradlePluginPortal()
 }
 
-kotlinDslPluginOptions {
-    experimentalWarning.set(false)
-}
-
 spotless {
     kotlinGradle {
         ktlint("0.40.0")

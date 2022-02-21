@@ -32,7 +32,7 @@ val sonatypeRepository = publishing.repositories.maven {
 val mavenPublication = publishing.publications.create<MavenPublication>("maven") {
     from(components["java"])
     afterEvaluate {
-        artifactId = requireNotNull(base.archivesBaseName)
+        artifactId = base.archivesName.get()
     }
 
     versionMapping {

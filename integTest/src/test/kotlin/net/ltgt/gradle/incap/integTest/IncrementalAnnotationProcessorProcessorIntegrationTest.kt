@@ -17,7 +17,6 @@ package net.ltgt.gradle.incap.integTest
 
 import com.google.common.truth.Truth.assertThat
 import org.gradle.testkit.runner.GradleRunner
-import org.gradle.util.TextUtil
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -36,7 +35,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         // given
         testProjectDir.newFile("settings.gradle.kts")
 
-        val testRepository = TextUtil.normaliseFileSeparators(File("build/repository").absolutePath)
+        val testRepository = File("build/repository").absolutePath.replace(File.separatorChar, '/')
         testProjectDir.newFile("build.gradle.kts").writeText(
             """
             plugins {
@@ -88,12 +87,10 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
     private fun writeProcessor(className: String, processorType: String, vararg packageNames: String): Unit =
         File(
             testProjectDir.root,
-            TextUtil.normaliseFileSeparators(
-                packageNames.joinToString(
-                    separator = "/",
-                    prefix = "src/main/java/",
-                    postfix = "/$className.java"
-                )
+            packageNames.joinToString(
+                separator = "/",
+                prefix = "src/main/java/",
+                postfix = "/$className.java"
             )
         ).run {
             parentFile.mkdirs()
@@ -125,5 +122,5 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         .build()
 
     private val generatedResourceFile
-        get() = testProjectDir.root.resolve(TextUtil.normaliseFileSeparators("build/classes/java/main/META-INF/gradle/incremental.annotation.processors"))
+        get() = testProjectDir.root.resolve("build/classes/java/main/META-INF/gradle/incremental.annotation.processors")
 }

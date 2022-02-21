@@ -17,7 +17,6 @@ package net.ltgt.gradle.incap.integTest
 
 import com.google.common.truth.Truth.assertThat
 import org.gradle.testkit.runner.GradleRunner
-import org.gradle.util.TextUtil
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -55,7 +54,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             assertThat(output).doesNotContainMatch("Full recompilation is required ")
             assertThat(output).contains("src/main/java/test/AnotherAnnotatedClass.java has been added")
             assertThat(output).doesNotContain("src/main/java/test/AnnotatedClass.java")
-            assertThat(output).contains("Incremental compilation of 0 classes completed")
+            assertThat(output).contains("Incremental compilation of 1 classes completed")
         }
 
         // when
@@ -85,7 +84,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             """.trimIndent()
         )
 
-        val testRepository = TextUtil.normaliseFileSeparators(File("build/repository").absolutePath)
+        val testRepository = File("build/repository").absolutePath.replace(File.separatorChar, '/')
         testProjectDir.newFile("build.gradle.kts").writeText(
             """
             plugins {
