@@ -1,7 +1,7 @@
 package local
 
 plugins {
-    `java-library`
+    id("local.java-library")
     `maven-publish`
     signing
 }

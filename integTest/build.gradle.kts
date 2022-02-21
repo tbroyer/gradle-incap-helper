@@ -1,4 +1,5 @@
 plugins {
+    id("local.kotlin-base")
     `embedded-kotlin`
     `maven-publish`
 }

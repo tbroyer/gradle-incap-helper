@@ -1,10 +1,11 @@
 package local
 
 plugins {
+    id("local.java-base")
     `java-library`
+    id("net.ltgt.errorprone")
+    id("net.ltgt.nullaway")
 }
-apply(plugin = "net.ltgt.errorprone")
-apply(plugin = "net.ltgt.nullaway")
 
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 if (JavaVersion.current().isJava9Compatible) {
