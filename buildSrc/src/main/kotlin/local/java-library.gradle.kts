@@ -19,14 +19,14 @@ repositories {
 }
 
 dependencies {
-    "errorprone"("com.google.errorprone:error_prone_core:2.5.1")
-    "errorprone"("com.uber.nullaway:nullaway:0.8.0")
+    "errorprone"("com.google.errorprone:error_prone_core:2.11.0")
+    "errorprone"("com.uber.nullaway:nullaway:0.9.5")
     "errorproneJavac"("com.google.errorprone:javac:9+181-r4173-1")
 }
 
 tasks {
     withType<JavaCompile>().configureEach {
-        options.compilerArgs.addAll(listOf("-Werror", "-Xlint:all"))
+        options.compilerArgs.addAll(listOf("-Werror", "-Xlint:all,-processing"))
     }
     javadoc {
         (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)

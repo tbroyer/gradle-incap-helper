@@ -6,7 +6,7 @@ plugins {
 
 spotless {
     kotlin {
-        ktlint("0.40.0")
+        ktlint("0.44.0")
         licenseHeaderFile(rootProject.file("LICENSE.header"))
     }
 }

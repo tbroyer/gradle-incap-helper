@@ -28,8 +28,8 @@ spotless {
 
 dependencies {
     implementation(plugin(id = "com.diffplug.spotless", version = "6.3.0"))
-    implementation(plugin(id = "net.ltgt.errorprone", version = "1.3.0"))
-    implementation(plugin(id = "net.ltgt.nullaway", version = "1.0.2"))
+    implementation(plugin(id = "net.ltgt.errorprone", version = "2.0.2"))
+    implementation(plugin(id = "net.ltgt.nullaway", version = "1.3.0"))
 }
 
 // https://docs.gradle.org/current/userguide/plugins.html#sec:plugin_markers
