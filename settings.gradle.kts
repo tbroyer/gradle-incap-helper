@@ -1,7 +1,9 @@
-rootProject.name = "gradle-incap-helper"
-
-include(":lib", ":processor", ":integTest")
-
+buildscript {
+    dependencyLocking {
+        lockAllConfigurations()
+        lockMode.set(LockMode.STRICT)
+    }
+}
 gradle.beforeProject {
     buildscript {
         dependencyLocking {
@@ -10,3 +12,7 @@ gradle.beforeProject {
         }
     }
 }
+
+rootProject.name = "gradle-incap-helper"
+
+include(":lib", ":processor", ":integTest")
