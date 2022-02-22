@@ -25,10 +25,10 @@ jobs:
 
       - name: Build with Gradle
         id: gradle-build
-        uses: eskatos/gradle-command-action@v1
+        uses: gradle/gradle-build-action@v1
         with:
           arguments: --no-daemon build --stacktrace
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           dependencies-cache-enabled: true
           dependencies-cache-key: '**/*gradle.lockfile'
           dependencies-cache-exact: true
@@ -59,10 +59,10 @@ jobs:
 
       - name: Build with Gradle
         id: gradle-build
-        uses: eskatos/gradle-command-action@v1
+        uses: gradle/gradle-build-action@v1
         with:
           arguments: --no-daemon test "-Ptest.java-toolchain=${{ matrix.java }}"
-          wrapper-cache-enabled: true
+          distributions-cache-enabled: true
           dependencies-cache-enabled: true
           dependencies-cache-key: '**/*gradle.lockfile'
           dependencies-cache-exact: true
