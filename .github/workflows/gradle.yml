@@ -8,6 +8,10 @@ on:
     paths-ignore:
       - '**/*.md'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 # First build and test with JDK 11
 # Then run tests with JDK 8 and 17
 jobs:
