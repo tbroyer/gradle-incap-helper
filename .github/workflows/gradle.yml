@@ -27,7 +27,7 @@ jobs:
         id: gradle-build
         uses: gradle/gradle-build-action@v1
         with:
-          arguments: --no-daemon build --stacktrace
+          arguments: --no-daemon :build-logic:build build --stacktrace
           distributions-cache-enabled: true
           dependencies-cache-enabled: true
           dependencies-cache-key: '**/*gradle.lockfile'

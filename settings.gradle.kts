@@ -15,4 +15,6 @@ gradle.beforeProject {
 
 rootProject.name = "gradle-incap-helper"
 
+includeBuild("build-logic")
+
 include(":lib", ":processor", ":integTest")
