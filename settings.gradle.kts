@@ -33,3 +33,5 @@ dependencyResolutionManagement {
 }
 
 include(":lib", ":processor", ":integTest")
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

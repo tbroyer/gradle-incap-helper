@@ -11,6 +11,6 @@ dependencyLocking {
 
 spotless {
     kotlinGradle {
-        ktlint("0.44.0")
+        ktlint(project.the<VersionCatalogsExtension>().named("libs").findVersion("ktlint").orElseThrow().requiredVersion)
     }
 }

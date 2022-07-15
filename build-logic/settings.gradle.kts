@@ -14,6 +14,8 @@ buildscript {
     }
 }
 
+rootProject.name = "build-logic"
+
 dependencyResolutionManagement {
     repositories {
         // gradlePluginPortal redirects to JCenter which isn't reliable,
@@ -21,5 +23,10 @@ dependencyResolutionManagement {
         // cf. https://github.com/gradle/gradle/issues/15406
         mavenCentral()
         gradlePluginPortal()
+    }
+    versionCatalogs {
+        create("libs") {
+            from(files("../gradle/libs.versions.toml"))
+        }
     }
 }

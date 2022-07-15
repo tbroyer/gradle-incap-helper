@@ -5,13 +5,13 @@ plugins {
 }
 
 dependencies {
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.1.3")
+    testImplementation(libs.junit)
+    testImplementation(libs.truth)
     testImplementation(gradleTestKit())
 }
 
-evaluationDependsOn(":lib")
-evaluationDependsOn(":processor")
+evaluationDependsOn(projects.lib.dependencyProject.path)
+evaluationDependsOn(projects.processor.dependencyProject.path)
 
 publishing {
     repositories {
@@ -21,23 +21,26 @@ publishing {
     }
     publications {
         create<MavenPublication>("lib") {
-            from(project(":lib").components["java"])
-            groupId = project(":lib").group.toString()
-            artifactId = project(":lib").base.archivesName.get()
-            version = project(":lib").version.toString()
+            from(projects.lib.dependencyProject.components["java"])
+            groupId = projects.lib.group.toString()
+            artifactId = projects.lib.dependencyProject.base.archivesName.get()
+            version = projects.lib.version.toString()
         }
         create<MavenPublication>("processor") {
-            from(project(":processor").components["java"])
-            groupId = project(":processor").group.toString()
-            artifactId = project(":processor").base.archivesName.get()
-            version = project(":processor").version.toString()
+            from(projects.processor.dependencyProject.components["java"])
+            groupId = projects.processor.group.toString()
+            artifactId = projects.processor.dependencyProject.base.archivesName.get()
+            version = projects.processor.version.toString()
         }
     }
 }
 
 tasks {
     test {
-        inputs.files(project(":lib").tasks.named("jar"), project(":processor").tasks.named("jar"))
+        inputs.files(
+            project.projects.lib.dependencyProject.tasks.named("jar"),
+            project.projects.processor.dependencyProject.tasks.named("jar")
+        )
 
         systemProperty("version", rootProject.version.toString())
 

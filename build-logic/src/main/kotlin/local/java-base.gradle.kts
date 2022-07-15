@@ -16,7 +16,7 @@ project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
 
 spotless {
     java {
-        googleJavaFormat("1.14.0")
+        googleJavaFormat(project.the<VersionCatalogsExtension>().named("libs").findVersion("googleJavaFormat").orElseThrow().requiredVersion)
         licenseHeaderFile(rootProject.file("LICENSE.header"))
     }
 }

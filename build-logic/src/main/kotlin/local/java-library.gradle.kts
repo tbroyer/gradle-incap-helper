@@ -15,9 +15,8 @@ if (JavaVersion.current().isJava9Compatible) {
 }
 
 dependencies {
-    "errorprone"("com.google.errorprone:error_prone_core:2.11.0")
-    "errorprone"("com.uber.nullaway:nullaway:0.9.5")
-    "errorproneJavac"("com.google.errorprone:javac:9+181-r4173-1")
+    errorprone(project.the<VersionCatalogsExtension>().named("libs").findBundle("errorprone").orElseThrow())
+    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 }
 
 tasks {
