@@ -3,15 +3,11 @@ plugins {
     id("local.maven-publish")
 }
 
-base.archivesBaseName = "incap-processor"
+base.archivesName.set("incap-processor")
 description = "Helper annotation processor for building incremental annotation processors"
 
 nullaway {
     annotatedPackages.add("net.ltgt.gradle.incap.processor")
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {

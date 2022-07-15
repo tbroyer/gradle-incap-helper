@@ -14,10 +14,6 @@ if (JavaVersion.current().isJava9Compatible) {
     }
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     "errorprone"("com.google.errorprone:error_prone_core:2.11.0")
     "errorprone"("com.uber.nullaway:nullaway:0.9.5")

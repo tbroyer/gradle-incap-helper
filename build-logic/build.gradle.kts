@@ -11,11 +11,6 @@ dependencyLocking {
     lockAllConfigurations()
 }
 
-repositories {
-    mavenCentral()
-    gradlePluginPortal()
-}
-
 spotless {
     kotlinGradle {
         ktlint("0.40.0")

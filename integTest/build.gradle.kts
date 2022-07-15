@@ -4,10 +4,6 @@ plugins {
     `maven-publish`
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
@@ -27,13 +23,13 @@ publishing {
         create<MavenPublication>("lib") {
             from(project(":lib").components["java"])
             groupId = project(":lib").group.toString()
-            artifactId = project(":lib").base.archivesBaseName
+            artifactId = project(":lib").base.archivesName.get()
             version = project(":lib").version.toString()
         }
         create<MavenPublication>("processor") {
             from(project(":processor").components["java"])
             groupId = project(":processor").group.toString()
-            artifactId = project(":processor").base.archivesBaseName
+            artifactId = project(":processor").base.archivesName.get()
             version = project(":processor").version.toString()
         }
     }
