@@ -13,6 +13,7 @@ dependencyLocking {
 
 spotless {
     kotlinGradle {
+        target("*.gradle.kts", "src/main/kotlin/**/*.gradle.kts")
         ktlint("0.44.0")
     }
 }
