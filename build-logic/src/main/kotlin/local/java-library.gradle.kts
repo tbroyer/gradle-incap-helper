@@ -13,7 +13,6 @@ tasks.withType<JavaCompile>().configureEach {
 
 dependencies {
     errorprone(project.the<VersionCatalogsExtension>().named("libs").findBundle("errorprone").orElseThrow())
-    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 }
 
 tasks {
