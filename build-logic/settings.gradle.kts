@@ -7,12 +7,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-buildscript {
-    dependencyLocking {
-        lockAllConfigurations()
-        lockMode.set(LockMode.STRICT)
-    }
-}
 
 rootProject.name = "build-logic"
 

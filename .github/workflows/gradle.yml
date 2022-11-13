@@ -27,13 +27,9 @@ jobs:
 
       - name: Build with Gradle
         id: gradle-build
-        uses: gradle/gradle-build-action@v1
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon :build-logic:build build --stacktrace
-          distributions-cache-enabled: true
-          dependencies-cache-enabled: true
-          dependencies-cache-key: '**/*gradle.lockfile'
-          dependencies-cache-exact: true
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
@@ -67,13 +63,9 @@ jobs:
 
       - name: Build with Gradle
         id: gradle-build
-        uses: gradle/gradle-build-action@v1
+        uses: gradle/gradle-build-action@v2
         with:
           arguments: --no-daemon test "-Ptest.java-toolchain=${{ matrix.java }}"
-          distributions-cache-enabled: true
-          dependencies-cache-enabled: true
-          dependencies-cache-key: '**/*gradle.lockfile'
-          dependencies-cache-exact: true
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')

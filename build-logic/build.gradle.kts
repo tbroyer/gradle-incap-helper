@@ -2,14 +2,6 @@ plugins {
     `kotlin-dsl`
     alias(libs.plugins.spotless)
 }
-buildscript {
-    dependencyLocking {
-        lockAllConfigurations()
-    }
-}
-dependencyLocking {
-    lockAllConfigurations()
-}
 
 spotless {
     kotlinGradle {
