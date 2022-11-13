@@ -7,11 +7,8 @@ plugins {
     id("net.ltgt.nullaway")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_1_8
-if (JavaVersion.current().isJava9Compatible) {
-    tasks.withType<JavaCompile>().configureEach {
-        options.release.set(java.targetCompatibility.majorVersion.toInt())
-    }
+tasks.withType<JavaCompile>().configureEach {
+    options.release.set(8)
 }
 
 dependencies {
