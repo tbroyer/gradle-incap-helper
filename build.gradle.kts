@@ -10,7 +10,3 @@ tasks {
         dependsOn(getTasksByName("dependencies", true))
     }
 }
-
-repositories {
-    mavenCentral()
-}
