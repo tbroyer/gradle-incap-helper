@@ -1,49 +1,44 @@
 plugins {
     id("local.kotlin-base")
     `embedded-kotlin`
-    `maven-publish`
+}
+
+// XXX: separate "dependency bucket" from resolvable configuration?
+val localMavenRepositories by configurations.creating {
+    isCanBeConsumed = false
+    isCanBeResolved = true
+    // Same attributes as in local.maven-publish convention plugin
+    attributes {
+        attribute(Category.CATEGORY_ATTRIBUTE, objects.named("maven-repository"))
+        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+    }
 }
 
 dependencies {
     testImplementation(libs.junit)
     testImplementation(libs.truth)
     testImplementation(gradleTestKit())
-}
 
-evaluationDependsOn(projects.lib.dependencyProject.path)
-evaluationDependsOn(projects.processor.dependencyProject.path)
-
-publishing {
-    repositories {
-        maven(url = "$buildDir/repository") {
-            name = "test"
-        }
-    }
-    publications {
-        create<MavenPublication>("lib") {
-            from(projects.lib.dependencyProject.components["java"])
-            groupId = projects.lib.group.toString()
-            artifactId = projects.lib.dependencyProject.base.archivesName.get()
-            version = projects.lib.version.toString()
-        }
-        create<MavenPublication>("processor") {
-            from(projects.processor.dependencyProject.components["java"])
-            groupId = projects.processor.group.toString()
-            artifactId = projects.processor.dependencyProject.base.archivesName.get()
-            version = projects.processor.version.toString()
-        }
-    }
+    localMavenRepositories(projects.lib)
+    localMavenRepositories(projects.processor)
 }
 
 tasks {
     test {
         inputs.files(
-            project.projects.lib.dependencyProject.tasks.named("jar"),
-            project.projects.processor.dependencyProject.tasks.named("jar")
+            localMavenRepositories.asFileTree.matching {
+                exclude("**/maven-metadata.*")
+            }
         )
+            .withPropertyName("testRepositories")
+            .withPathSensitivity(PathSensitivity.RELATIVE)
 
         systemProperty("version", rootProject.version.toString())
-
-        dependsOn("publishLibPublicationToTestRepository", "publishProcessorPublicationToTestRepository")
+        // systemProperty doesn't support providers, so fake it with CommandLineArgumentProvider
+        jvmArgumentProviders.add(
+            CommandLineArgumentProvider {
+                listOf("-DtestRepositories=${localMavenRepositories.joinToString(File.pathSeparator) { project.relativePath(it) }}")
+            }
+        )
     }
 }

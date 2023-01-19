@@ -30,19 +30,28 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
     val testProjectDir = TemporaryFolder()
 
     private val version = System.getProperty("version")!!
+    private val testRepositories = System.getProperty("testRepositories")!!.splitToSequence(File.pathSeparator).joinToString("\n") {
+        """
+            maven { url = uri("${File(it).toURI().toASCIIString()}") }
+        """.trimIndent()
+    }
 
     @Test fun testIncrementality() {
         // given
-        testProjectDir.newFile("settings.gradle.kts")
+        testProjectDir.newFile("settings.gradle.kts").writeText(
+            """
+            dependencyResolutionManagement {
+                repositories {
+                    ${testRepositories.prependIndent("    ".repeat(2))}
+                }
+            }
+            """.trimIndent()
+        )
 
-        val testRepository = File("build/repository").absolutePath.replace(File.separatorChar, '/')
         testProjectDir.newFile("build.gradle.kts").writeText(
             """
             plugins {
                 `java-library`
-            }
-            repositories {
-                maven { url = uri("$testRepository") }
             }
             dependencies {
                 implementation("net.ltgt.gradle.incap:incap:$version")
