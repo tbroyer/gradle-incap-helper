@@ -45,7 +45,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
                     ${testRepositories.prependIndent("    ".repeat(2))}
                 }
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         testProjectDir.newFile("build.gradle.kts").writeText(
@@ -57,7 +57,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
                 implementation("net.ltgt.gradle.incap:incap:$version")
                 annotationProcessor("net.ltgt.gradle.incap:incap-processor:$version")
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         writeProcessor("SomeProcessor", "AGGREGATING", "test")
@@ -73,7 +73,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         assertTrue(generatedResourceFile.exists())
         assertEquals(
             "test.AnotherProcessor,ISOLATING\ntest.SomeProcessor,AGGREGATING",
-            generatedResourceFile.readText().trim()
+            generatedResourceFile.readText().trim(),
         )
 
         // given
@@ -89,7 +89,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         // then
         assertEquals(
             "test.AnotherProcessor,ISOLATING\ntest.SomeProcessor,DYNAMIC",
-            generatedResourceFile.readText().trim()
+            generatedResourceFile.readText().trim(),
         )
     }
 
@@ -99,8 +99,8 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
             packageNames.joinToString(
                 separator = "/",
                 prefix = "src/main/java/",
-                postfix = "/$className.java"
-            )
+                postfix = "/$className.java",
+            ),
         ).run {
             parentFile.mkdirs()
             writeText(
@@ -121,7 +121,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
                     return false;
                   }
                 }
-                """.trimIndent()
+                """.trimIndent(),
             )
         }
 

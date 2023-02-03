@@ -9,7 +9,7 @@ project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
         javaLauncher.set(
             project.javaToolchains.launcherFor {
                 languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
-            }
+            },
         )
     }
 }

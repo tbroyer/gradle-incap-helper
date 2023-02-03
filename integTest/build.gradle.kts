@@ -28,7 +28,7 @@ tasks {
         inputs.files(
             localMavenRepositories.asFileTree.matching {
                 exclude("**/maven-metadata.*")
-            }
+            },
         )
             .withPropertyName("testRepositories")
             .withPathSensitivity(PathSensitivity.RELATIVE)
@@ -38,7 +38,7 @@ tasks {
         jvmArgumentProviders.add(
             CommandLineArgumentProvider {
                 listOf("-DtestRepositories=${localMavenRepositories.joinToString(File.pathSeparator) { project.relativePath(it) }}")
-            }
+            },
         )
     }
 }

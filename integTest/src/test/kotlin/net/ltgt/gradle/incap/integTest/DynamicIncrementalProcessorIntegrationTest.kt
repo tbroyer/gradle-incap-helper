@@ -51,7 +51,7 @@ class DynamicIncrementalProcessorIntegrationTest {
 
                 @TestAnnotation
                 class AnotherAnnotatedClass {}
-                """.trimIndent()
+                """.trimIndent(),
             )
         }
         with(compileJava()) {
@@ -71,7 +71,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             class AnotherAnnotatedClass {
                 void foo() {}
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
         with(compileJava()) {
             // then
@@ -91,7 +91,7 @@ class DynamicIncrementalProcessorIntegrationTest {
                 }
             }
             include(":processor")
-            """.trimIndent()
+            """.trimIndent(),
         )
 
         testProjectDir.newFile("build.gradle.kts").writeText(
@@ -102,7 +102,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             dependencies {
                 annotationProcessor(project(":processor"))
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
         testProjectDir.newFolder("src", "main", "java", "test")
         testProjectDir.newFile("src/main/java/test/TestAnnotation.java").writeText(
@@ -117,7 +117,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             @Target(ElementType.TYPE)
             @Retention(RetentionPolicy.SOURCE)
             public @interface TestAnnotation {}
-            """.trimIndent()
+            """.trimIndent(),
         )
         testProjectDir.newFile("src/main/java/test/AnnotatedClass.java").writeText(
             """
@@ -125,7 +125,7 @@ class DynamicIncrementalProcessorIntegrationTest {
 
             @TestAnnotation
             class AnnotatedClass {}
-            """.trimIndent()
+            """.trimIndent(),
         )
         testProjectDir.newFolder("processor")
         testProjectDir.newFile("processor/build.gradle.kts").writeText(
@@ -137,7 +137,7 @@ class DynamicIncrementalProcessorIntegrationTest {
                 implementation("net.ltgt.gradle.incap:incap:$version")
                 annotationProcessor("net.ltgt.gradle.incap:incap-processor:$version")
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
         testProjectDir.newFolder("processor", "src", "main", "java", "test", "processor")
         testProjectDir.newFile("processor/src/main/java/test/processor/TestAnnotationProcessor.java").writeText(
@@ -182,7 +182,7 @@ class DynamicIncrementalProcessorIntegrationTest {
                 return false;
               }
             }
-            """.trimIndent()
+            """.trimIndent(),
         )
         testProjectDir.newFolder("processor", "src", "main", "resources", "META-INF", "services")
         testProjectDir.newFile("processor/src/main/resources/META-INF/services/javax.annotation.processing.Processor")
