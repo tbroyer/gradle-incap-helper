@@ -3,6 +3,14 @@ plugins {
     `embedded-kotlin`
 }
 
+project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
+    java {
+        toolchain {
+            languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
+        }
+    }
+}
+
 // XXX: separate "dependency bucket" from resolvable configuration?
 val localMavenRepositories by configurations.creating {
     isCanBeConsumed = false

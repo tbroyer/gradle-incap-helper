@@ -59,7 +59,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             assertThat(output).doesNotContainMatch("Full recompilation is required ")
             assertThat(output).contains("src/main/java/test/AnotherAnnotatedClass.java has been added")
             assertThat(output).doesNotContain("src/main/java/test/AnnotatedClass.java")
-            assertThat(output).contains("Incremental compilation of 1 classes completed")
+            assertThat(output).contains("Incremental compilation of 2 classes completed")
         }
 
         // when
@@ -78,7 +78,7 @@ class DynamicIncrementalProcessorIntegrationTest {
             assertThat(output).doesNotContainMatch("Full recompilation is required because .* is not incremental")
             assertThat(output).contains("src/main/java/test/AnotherAnnotatedClass.java has changed")
             assertThat(output).doesNotContain("src/main/java/test/AnnotatedClass.java")
-            assertThat(output).contains("Incremental compilation of 2 classes completed")
+            assertThat(output).contains("Incremental compilation of 3 classes completed")
         }
     }
 
