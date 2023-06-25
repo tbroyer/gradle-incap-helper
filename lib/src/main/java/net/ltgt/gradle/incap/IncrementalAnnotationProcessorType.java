@@ -21,7 +21,7 @@ import java.util.Locale;
  * Describes the type of incremental annotation processing a processor is capable of.
  *
  * <p>See <a
- * href="https://docs.gradle.org/4.8-rc-2/userguide/java_plugin.html#sec:incremental_annotation_processing">the
+ * href="https://docs.gradle.org/current/userguide/java_plugin.html#sec:incremental_annotation_processing">the
  * Gradle documentation</a> for more information on each type.
  */
 public enum IncrementalAnnotationProcessorType {

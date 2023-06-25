@@ -2,8 +2,8 @@
 
 Helper library and annotation processor for building incremental annotation processors
 
-[Gradle 4.7 comes](https://docs.gradle.org/4.7/release-notes.html) with some level incremental annotation processing support.
-[Gradle 4.8 goes farther](https://docs.gradle.org/4.8-rc-2/release-notes.html#improved-incremental-annotation-processing) by making it possibly dynamic.
+[Gradle 4.7 came](https://docs.gradle.org/4.7/release-notes.html "Gradle 4.7 release notes") (in April 2018) with some level of incremental annotation processing support.
+[Gradle 4.8 went farther](https://docs.gradle.org/4.8/release-notes.html#improved-incremental-annotation-processing "Gradle 4.8 release ntoes") by making it possibly dynamic.
 
 This library and annotation processor helps you generate the META-INF descriptor,
 and return the appropriate value from your processor's `getSupportedOptions()` if it's dynamic.
@@ -17,7 +17,8 @@ and return the appropriate value from your processor's `getSupportedOptions()` i
 
    ```gradle
    dependencies {
-       compileOnly("net.ltgt.gradle.incap:incap:${incap.version}")
+       // you can use compileOnlyApi (or even compileApi) if you're only using isolating or aggregating processors (i.e. no dynamic processor)
+       implementation("net.ltgt.gradle.incap:incap:${incap.version}")
        annotationProcessor("net.ltgt.gradle.incap:incap-processor:${incap.version}")
    }
    ```
@@ -33,8 +34,11 @@ and return the appropriate value from your processor's `getSupportedOptions()` i
            <groupId>net.ltgt.gradle.incap</groupId>
            <artifactId>incap</artifactId>
            <version>${incap.version}</version>
+           <!-- you can use provided and/or optional if you're only using isolating or aggregating processors (i.e. no dynamic processor) -->
+           <!--
            <scope>provided</scope>
            <optional>true</optional>
+           -->
        </dependency>
    </dependencies>
    <build>
@@ -57,9 +61,6 @@ and return the appropriate value from your processor's `getSupportedOptions()` i
    ```
 
    </details>
-   
-   Note: it's OK to use `compileOnly` in Gradle, or the `provided` scope in Maven,
-   despite the annotation having class retention, because annotation processors aren't libraries that others compile against.
 
 2. Annotate your annotation processor with `@IncrementalAnnotationProcessor`
 
@@ -76,6 +77,7 @@ and return the appropriate value from your processor's `getSupportedOptions()` i
        if (someCondition) {
            return Collections.singleton(ISOLATING.getProcessorOption());
        } else {
+           // Non-incremental
            return Collections.emptySet();
        }
    }
