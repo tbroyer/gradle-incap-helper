@@ -6,15 +6,18 @@ plugins {
 }
 project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
     tasks.withType<Test>().configureEach {
-        javaLauncher = project.javaToolchains.launcherFor {
-            languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
-        }
+        javaLauncher =
+            project.javaToolchains.launcherFor {
+                languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
+            }
     }
 }
 
 spotless {
     java {
-        googleJavaFormat(project.the<VersionCatalogsExtension>().named("libs").findVersion("googleJavaFormat").orElseThrow().requiredVersion)
+        googleJavaFormat(
+            project.the<VersionCatalogsExtension>().named("libs").findVersion("googleJavaFormat").orElseThrow().requiredVersion,
+        )
         licenseHeaderFile(rootProject.file("LICENSE.header"))
     }
 }

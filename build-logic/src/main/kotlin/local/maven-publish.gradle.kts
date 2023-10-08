@@ -13,18 +13,20 @@ java {
     withSourcesJar()
 }
 
-val sonatypeRepository = publishing.repositories.maven {
-    name = "sonatype"
-    url = if (isSnapshot) {
-        uri("https://oss.sonatype.org/content/repositories/snapshots/")
-    } else {
-        uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+val sonatypeRepository =
+    publishing.repositories.maven {
+        name = "sonatype"
+        url =
+            if (isSnapshot) {
+                uri("https://oss.sonatype.org/content/repositories/snapshots/")
+            } else {
+                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
+            }
+        credentials {
+            username = project.findProperty("ossrhUsername") as? String
+            password = project.findProperty("ossrhPassword") as? String
+        }
     }
-    credentials {
-        username = project.findProperty("ossrhUsername") as? String
-        password = project.findProperty("ossrhPassword") as? String
-    }
-}
 
 fun createPublication(publicationName: String) =
     publishing.publications.create<MavenPublication>(publicationName) {
@@ -93,10 +95,11 @@ val localPublication = createPublication("Local")
 
 val localRepoDir = layout.buildDirectory.dir("local-maven-repo")
 
-val localRepository = publishing.repositories.maven {
-    name = "Local" // must already be capitalized for computing task name below
-    url = uri(localRepoDir)
-}
+val localRepository =
+    publishing.repositories.maven {
+        name = "Local" // must already be capitalized for computing task name below
+        url = uri(localRepoDir)
+    }
 
 tasks {
     val cleanLocalRepository by registering(Delete::class) {

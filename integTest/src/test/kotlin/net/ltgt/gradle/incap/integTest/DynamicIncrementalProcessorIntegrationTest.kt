@@ -28,11 +28,12 @@ class DynamicIncrementalProcessorIntegrationTest {
     val testProjectDir = TemporaryFolder()
 
     private val version = System.getProperty("version")!!
-    private val testRepositories = System.getProperty("testRepositories")!!.splitToSequence(File.pathSeparator).joinToString("\n") {
-        """
+    private val testRepositories =
+        System.getProperty("testRepositories")!!.splitToSequence(File.pathSeparator).joinToString("\n") {
+            """
             maven { url = uri("${File(it).toURI().toASCIIString()}") }
-        """.trimIndent()
-    }
+            """.trimIndent()
+        }
 
     @Test
     fun testDynamicProcessor() {
@@ -44,16 +45,17 @@ class DynamicIncrementalProcessorIntegrationTest {
         }
 
         // when
-        val sourceFile = testProjectDir.newFile("src/main/java/test/AnotherAnnotatedClass.java").apply {
-            writeText(
-                """
-                package test;
+        val sourceFile =
+            testProjectDir.newFile("src/main/java/test/AnotherAnnotatedClass.java").apply {
+                writeText(
+                    """
+                    package test;
 
-                @TestAnnotation
-                class AnotherAnnotatedClass {}
-                """.trimIndent(),
-            )
-        }
+                    @TestAnnotation
+                    class AnotherAnnotatedClass {}
+                    """.trimIndent(),
+                )
+            }
         with(compileJava()) {
             // then
             assertThat(output).doesNotContainMatch("Full recompilation is required ")
@@ -189,8 +191,9 @@ class DynamicIncrementalProcessorIntegrationTest {
             .writeText("test.processor.TestAnnotationProcessor")
     }
 
-    private fun compileJava() = GradleRunner.create()
-        .withProjectDir(testProjectDir.root)
-        .withArguments("--info", "compileJava")
-        .build()
+    private fun compileJava() =
+        GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments("--info", "compileJava")
+            .build()
 }

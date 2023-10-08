@@ -30,11 +30,12 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
     val testProjectDir = TemporaryFolder()
 
     private val version = System.getProperty("version")!!
-    private val testRepositories = System.getProperty("testRepositories")!!.splitToSequence(File.pathSeparator).joinToString("\n") {
-        """
+    private val testRepositories =
+        System.getProperty("testRepositories")!!.splitToSequence(File.pathSeparator).joinToString("\n") {
+            """
             maven { url = uri("${File(it).toURI().toASCIIString()}") }
-        """.trimIndent()
-    }
+            """.trimIndent()
+        }
 
     @Test fun testIncrementality() {
         // given
@@ -93,7 +94,11 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         )
     }
 
-    private fun writeProcessor(className: String, processorType: String, vararg packageNames: String): Unit =
+    private fun writeProcessor(
+        className: String,
+        processorType: String,
+        vararg packageNames: String,
+    ): Unit =
         File(
             testProjectDir.root,
             packageNames.joinToString(
@@ -125,10 +130,11 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
             )
         }
 
-    private fun compileJava() = GradleRunner.create()
-        .withProjectDir(testProjectDir.root)
-        .withArguments("--info", "compileJava")
-        .build()
+    private fun compileJava() =
+        GradleRunner.create()
+            .withProjectDir(testProjectDir.root)
+            .withArguments("--info", "compileJava")
+            .build()
 
     private val generatedResourceFile
         get() = testProjectDir.root.resolve("build/classes/java/main/META-INF/gradle/incremental.annotation.processors")
