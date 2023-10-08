@@ -6,13 +6,14 @@ plugins {
 project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
     java {
         toolchain {
-            languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
+            languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
         }
     }
 }
 
 // XXX: separate "dependency bucket" from resolvable configuration?
 val localMavenRepositories by configurations.creating {
+    isCanBeDeclared = true
     isCanBeConsumed = false
     isCanBeResolved = true
     // Same attributes as in local.maven-publish convention plugin

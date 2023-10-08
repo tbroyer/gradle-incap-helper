@@ -6,11 +6,9 @@ plugins {
 }
 project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
     tasks.withType<Test>().configureEach {
-        javaLauncher.set(
-            project.javaToolchains.launcherFor {
-                languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
-            },
-        )
+        javaLauncher = project.javaToolchains.launcherFor {
+            languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
+        }
     }
 }
 

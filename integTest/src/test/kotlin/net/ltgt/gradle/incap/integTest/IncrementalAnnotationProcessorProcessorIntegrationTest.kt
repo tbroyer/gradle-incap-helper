@@ -83,7 +83,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         with(compileJava()) {
             // then
             assertThat(output).doesNotContain("Full recompilation is required ")
-            assertThat(output).contains("Incremental compilation of 2 classes completed")
+            assertThat(output).contains("Incremental compilation of 1 classes completed")
         }
 
         // then

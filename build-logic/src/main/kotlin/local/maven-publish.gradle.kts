@@ -43,24 +43,24 @@ fun createPublication(publicationName: String) =
         }
 
         pom {
-            name.set(provider { "$groupId:$artifactId" })
-            description.set(provider { project.description ?: name.get() })
-            url.set("https://github.com/tbroyer/gradle-incap-helper")
+            name = provider { "$groupId:$artifactId" }
+            description = provider { project.description ?: name.get() }
+            url = "https://github.com/tbroyer/gradle-incap-helper"
             developers {
                 developer {
-                    name.set("Thomas Broyer")
-                    email.set("t.broyer@ltgt.net")
+                    name = "Thomas Broyer"
+                    email = "t.broyer@ltgt.net"
                 }
             }
             scm {
-                connection.set("https://github.com/tbroyer/gradle-incap-helper.git")
-                developerConnection.set("scm:git:ssh://github.com:tbroyer/gradle-incap-helper.git")
-                url.set("https://github.com/tbroyer/gradle-incap-helper")
+                connection = "https://github.com/tbroyer/gradle-incap-helper.git"
+                developerConnection = "scm:git:ssh://github.com:tbroyer/gradle-incap-helper.git"
+                url = "https://github.com/tbroyer/gradle-incap-helper"
             }
             licenses {
                 license {
-                    name.set("The Apache License, Version 2.0")
-                    url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                    name = "The Apache License, Version 2.0"
+                    url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
                 }
             }
         }
@@ -110,17 +110,17 @@ tasks {
     }
 }
 
-val localRepoElements by configurations.creating {
-    isCanBeConsumed = true
-    isCanBeResolved = false
-    description = "Shares local maven repository directory that contains the artifacts produced by the current project"
-    attributes {
-        attribute(Category.CATEGORY_ATTRIBUTE, objects.named("maven-repository"))
-        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
-    }
-    outgoing {
-        artifact(localRepoDir) {
-            builtBy(tasks.named("publish${localPublication.name}PublicationTo${localRepository.name}Repository"))
+configurations {
+    consumable("localRepoElements") {
+        description = "Shares local maven repository directory that contains the artifacts produced by the current project"
+        attributes {
+            attribute(Category.CATEGORY_ATTRIBUTE, objects.named("maven-repository"))
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        }
+        outgoing {
+            artifact(localRepoDir) {
+                builtBy(tasks.named("publish${localPublication.name}PublicationTo${localRepository.name}Repository"))
+            }
         }
     }
 }

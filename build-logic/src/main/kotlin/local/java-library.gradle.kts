@@ -8,7 +8,7 @@ plugins {
 }
 
 tasks.withType<JavaCompile>().configureEach {
-    options.release.set(8)
+    options.release = 8
 }
 
 dependencies {
