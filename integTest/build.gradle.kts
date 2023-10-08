@@ -3,10 +3,15 @@ plugins {
     `embedded-kotlin`
 }
 
+// Use the lowest toolchain to compile the code, such that produced bytecode
+// is compatible with the target test toolchain.
 project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
+    val testVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
+    if (testVersion < JavaLanguageVersion.of(JavaVersion.current().toString())) {
+        java {
+            toolchain {
+                languageVersion = testVersion
+            }
         }
     }
 }
