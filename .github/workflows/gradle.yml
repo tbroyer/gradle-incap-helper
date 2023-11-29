@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 # First build and test with JDK 11
-# Then run tests with JDK 8 and 17
+# Then run tests with JDK 8, 17, and 21
 jobs:
   linux:
     runs-on: ubuntu-latest
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 8, 17 ]
+        java: [ 8, 17, 21 ]
     steps:
       - uses: actions/checkout@v3
 
