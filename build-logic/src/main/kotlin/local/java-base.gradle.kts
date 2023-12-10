@@ -4,14 +4,6 @@ plugins {
     id("local.base")
     `java-base`
 }
-project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
-    tasks.withType<Test>().configureEach {
-        javaLauncher =
-            project.javaToolchains.launcherFor {
-                languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
-            }
-    }
-}
 
 spotless {
     java {

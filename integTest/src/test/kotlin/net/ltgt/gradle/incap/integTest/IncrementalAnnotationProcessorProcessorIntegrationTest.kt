@@ -23,11 +23,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import java.util.Properties
 
 class IncrementalAnnotationProcessorProcessorIntegrationTest {
     @JvmField
     @Rule
     val testProjectDir = TemporaryFolder()
+
+    private val testJavaHome = System.getProperty("test.java-home", System.getProperty("java.home"))
 
     private val version = System.getProperty("version")!!
     private val testRepositories =
@@ -39,6 +42,12 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
 
     @Test fun testIncrementality() {
         // given
+        testProjectDir.newFile("gradle.properties").outputStream().use {
+            Properties().apply {
+                setProperty("org.gradle.java.home", testJavaHome)
+                store(it, null)
+            }
+        }
         testProjectDir.newFile("settings.gradle.kts").writeText(
             """
             dependencyResolutionManagement {

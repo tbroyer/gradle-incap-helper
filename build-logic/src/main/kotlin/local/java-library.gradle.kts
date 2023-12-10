@@ -10,6 +10,14 @@ plugins {
 tasks.withType<JavaCompile>().configureEach {
     options.release = 8
 }
+project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
+    tasks.withType<Test>().configureEach {
+        javaLauncher =
+            project.javaToolchains.launcherFor {
+                languageVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
+            }
+    }
+}
 
 dependencies {
     errorprone(project.the<VersionCatalogsExtension>().named("libs").findBundle("errorprone").orElseThrow())

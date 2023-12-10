@@ -3,19 +3,6 @@ plugins {
     `embedded-kotlin`
 }
 
-// Use the lowest toolchain to compile the code, such that produced bytecode
-// is compatible with the target test toolchain.
-project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
-    val testVersion = JavaLanguageVersion.of(testJavaToolchain.toString())
-    if (testVersion < JavaLanguageVersion.of(JavaVersion.current().toString())) {
-        java {
-            toolchain {
-                languageVersion = testVersion
-            }
-        }
-    }
-}
-
 // XXX: separate "dependency bucket" from resolvable configuration?
 val localMavenRepositories by configurations.creating {
     isCanBeDeclared = true
@@ -46,6 +33,15 @@ tasks {
         )
             .withPropertyName("testRepositories")
             .withPathSensitivity(PathSensitivity.RELATIVE)
+
+        val testJavaToolchain = project.findProperty("test.java-toolchain")
+        testJavaToolchain?.also {
+            val metadata =
+                project.javaToolchains.launcherFor {
+                    languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
+                }.get().metadata
+            systemProperty("test.java-home", metadata.installationPath.asFile.canonicalPath)
+        }
 
         systemProperty("version", rootProject.version.toString())
         // systemProperty doesn't support providers, so fake it with CommandLineArgumentProvider
