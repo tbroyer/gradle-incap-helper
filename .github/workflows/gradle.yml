@@ -25,11 +25,11 @@ jobs:
           distribution: 'temurin'
           java-version: '11'
 
+      - uses: gradle/actions/setup-gradle@v3
+
       - name: Build with Gradle
         id: gradle-build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: --no-daemon :build-logic:build build --stacktrace
+        run: ./gradlew --no-daemon :build-logic:build build --stacktrace
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
@@ -61,11 +61,11 @@ jobs:
           echo "org.gradle.java.installations.auto-download=false" | tee -a gradle.properties
           echo "org.gradle.java.installations.fromEnv=JAVA_HOME_${{ matrix.java }}_X64" | tee -a gradle.properties
 
+      - uses: gradle/actions/setup-gradle@v3
+
       - name: Build with Gradle
         id: gradle-build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: --no-daemon test "-Ptest.java-toolchain=${{ matrix.java }}"
+        run: ./gradlew --no-daemon test "-Ptest.java-toolchain=${{ matrix.java }}"
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
