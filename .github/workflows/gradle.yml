@@ -29,7 +29,7 @@ jobs:
 
       - name: Build with Gradle
         id: gradle-build
-        run: ./gradlew --no-daemon :build-logic:build build --stacktrace
+        run: ./gradlew :build-logic:build build --stacktrace
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
@@ -65,7 +65,7 @@ jobs:
 
       - name: Build with Gradle
         id: gradle-build
-        run: ./gradlew --no-daemon test "-Ptest.java-toolchain=${{ matrix.java }}"
+        run: ./gradlew test "-Ptest.java-toolchain=${{ matrix.java }}"
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
