@@ -20,7 +20,13 @@ project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
 }
 
 dependencies {
-    errorprone(project.the<VersionCatalogsExtension>().named("libs").findBundle("errorprone").orElseThrow())
+    errorprone(
+        project
+            .the<VersionCatalogsExtension>()
+            .named("libs")
+            .findBundle("errorprone")
+            .orElseThrow(),
+    )
 }
 
 tasks {

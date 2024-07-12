@@ -140,7 +140,8 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         }
 
     private fun compileJava() =
-        GradleRunner.create()
+        GradleRunner
+            .create()
             .withProjectDir(testProjectDir.root)
             .withArguments("--info", "compileJava")
             .build()

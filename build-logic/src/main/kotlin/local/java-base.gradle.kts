@@ -8,7 +8,12 @@ plugins {
 spotless {
     java {
         googleJavaFormat(
-            project.the<VersionCatalogsExtension>().named("libs").findVersion("googleJavaFormat").orElseThrow().requiredVersion,
+            project
+                .the<VersionCatalogsExtension>()
+                .named("libs")
+                .findVersion("googleJavaFormat")
+                .orElseThrow()
+                .requiredVersion,
         )
         licenseHeaderFile(rootProject.file("LICENSE.header"))
     }

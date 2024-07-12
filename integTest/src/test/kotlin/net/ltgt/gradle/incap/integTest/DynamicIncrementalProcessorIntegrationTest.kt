@@ -196,12 +196,14 @@ class DynamicIncrementalProcessorIntegrationTest {
             """.trimIndent(),
         )
         testProjectDir.newFolder("processor", "src", "main", "resources", "META-INF", "services")
-        testProjectDir.newFile("processor/src/main/resources/META-INF/services/javax.annotation.processing.Processor")
+        testProjectDir
+            .newFile("processor/src/main/resources/META-INF/services/javax.annotation.processing.Processor")
             .writeText("test.processor.TestAnnotationProcessor")
     }
 
     private fun compileJava() =
-        GradleRunner.create()
+        GradleRunner
+            .create()
             .withProjectDir(testProjectDir.root)
             .withArguments("--info", "compileJava")
             .build()

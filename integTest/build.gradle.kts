@@ -26,20 +26,22 @@ dependencies {
 
 tasks {
     test {
-        inputs.files(
-            localMavenRepositories.asFileTree.matching {
-                exclude("**/maven-metadata.*")
-            },
-        )
-            .withPropertyName("testRepositories")
+        inputs
+            .files(
+                localMavenRepositories.asFileTree.matching {
+                    exclude("**/maven-metadata.*")
+                },
+            ).withPropertyName("testRepositories")
             .withPathSensitivity(PathSensitivity.RELATIVE)
 
         val testJavaToolchain = project.findProperty("test.java-toolchain")
         testJavaToolchain?.also {
             val metadata =
-                project.javaToolchains.launcherFor {
-                    languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
-                }.get().metadata
+                project.javaToolchains
+                    .launcherFor {
+                        languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
+                    }.get()
+                    .metadata
             systemProperty("test.java-home", metadata.installationPath.asFile.canonicalPath)
         }
 
