@@ -1,20 +1,7 @@
-pluginManagement {
-    repositories {
-        // gradlePluginPortal redirects to JCenter which isn't reliable,
-        // prefer Central to JCenter (for the same dependencies)
-        // cf. https://github.com/gradle/gradle/issues/15406
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
 rootProject.name = "build-logic"
 
 dependencyResolutionManagement {
     repositories {
-        // gradlePluginPortal redirects to JCenter which isn't reliable,
-        // prefer Central to JCenter (for the same dependencies)
-        // cf. https://github.com/gradle/gradle/issues/15406
         mavenCentral()
         gradlePluginPortal()
     }
