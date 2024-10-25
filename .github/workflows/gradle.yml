@@ -25,7 +25,7 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
 
       - name: Build with Gradle
         id: gradle-build
@@ -61,7 +61,7 @@ jobs:
           echo "org.gradle.java.installations.auto-download=false" | tee -a gradle.properties
           echo "org.gradle.java.installations.fromEnv=JAVA_HOME_${{ matrix.java }}_X64" | tee -a gradle.properties
 
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
 
       - name: Build with Gradle
         id: gradle-build
