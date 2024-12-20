@@ -15,7 +15,7 @@ truth = "com.google.truth:truth:1.4.4"
 
 # Used in below bundle
 errorprone-core = "com.google.errorprone:error_prone_core:2.36.0"
-nullaway = "com.uber.nullaway:nullaway:0.12.1"
+nullaway = "com.uber.nullaway:nullaway:0.12.2"
 
 [bundles]
 # Used by build-logic
