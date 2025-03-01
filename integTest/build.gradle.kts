@@ -49,7 +49,7 @@ tasks {
         // systemProperty doesn't support providers, so fake it with CommandLineArgumentProvider
         jvmArgumentProviders.add(
             CommandLineArgumentProvider {
-                listOf("-DtestRepositories=${localMavenRepositories.joinToString(File.pathSeparator) { project.relativePath(it) }}")
+                listOf("-DtestRepositories=${localMavenRepositories.joinToString(File.pathSeparator) { relativePath(it) }}")
             },
         )
     }
