@@ -3,7 +3,6 @@ plugins {
     id("local.maven-publish")
 }
 
-base.archivesName = "incap"
 description = "Helper library for building incremental annotation processors"
 
 nullaway {

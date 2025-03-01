@@ -3,7 +3,6 @@ plugins {
     id("local.maven-publish")
 }
 
-base.archivesName = "incap-processor"
 description = "Helper annotation processor for building incremental annotation processors"
 
 nullaway {
@@ -11,7 +10,7 @@ nullaway {
 }
 
 dependencies {
-    implementation(projects.lib)
+    implementation(projects.incap)
 
     compileOnly(libs.autoService.annotations)
     annotationProcessor(libs.autoService)

@@ -31,9 +31,6 @@ val sonatypeRepository =
 fun createPublication(publicationName: String) =
     publishing.publications.create<MavenPublication>(publicationName) {
         from(components["java"])
-        afterEvaluate {
-            artifactId = base.archivesName.get()
-        }
 
         versionMapping {
             usage("java-api") {

@@ -20,8 +20,8 @@ dependencies {
     testImplementation(libs.truth)
     testImplementation(gradleTestKit())
 
-    localMavenRepositories(projects.lib)
-    localMavenRepositories(projects.processor)
+    localMavenRepositories(projects.incap)
+    localMavenRepositories(projects.incapProcessor)
 }
 
 tasks {
