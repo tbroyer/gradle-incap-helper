@@ -4,7 +4,7 @@ autoService = "1.1.1"
 
 # Versions used by build-logic
 googleJavaFormat = "1.28.0"
-ktlint = "1.7.0"
+ktlint = "1.7.1"
 
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
@@ -18,7 +18,7 @@ googleJavaFormat = { module = "com.google.googlejavaformat:google-java-format", 
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 # Used in below bundle
-errorprone-core = "com.google.errorprone:error_prone_core:2.40.0"
+errorprone-core = "com.google.errorprone:error_prone_core:2.41.0"
 nullaway = "com.uber.nullaway:nullaway:0.12.7"
 
 [bundles]
@@ -28,4 +28,4 @@ errorprone = [ "errorprone-core", "nullaway" ]
 [plugins]
 errorprone = "net.ltgt.errorprone:4.3.0"
 nullaway = "net.ltgt.nullaway:2.2.0"
-spotless = "com.diffplug.spotless:7.1.0"
+spotless = "com.diffplug.spotless:7.2.1"
