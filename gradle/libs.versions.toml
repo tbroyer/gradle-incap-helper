@@ -9,7 +9,7 @@ ktlint = "1.7.1"
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoService-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-compileTesting = "com.google.testing.compile:compile-testing:0.21.0"
+compileTesting = "com.google.testing.compile:compile-testing:0.22.0"
 junit = "junit:junit:4.13.2"
 truth = "com.google.truth:truth:1.4.4"
 
