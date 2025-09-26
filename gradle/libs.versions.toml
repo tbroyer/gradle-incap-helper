@@ -28,4 +28,4 @@ errorprone = [ "errorprone-core", "nullaway" ]
 [plugins]
 errorprone = "net.ltgt.errorprone:4.3.0"
 nullaway = "net.ltgt.nullaway:2.3.0"
-spotless = "com.diffplug.spotless:7.2.1"
+spotless = "com.diffplug.spotless:8.0.0"
