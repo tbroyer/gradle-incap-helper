@@ -3,7 +3,7 @@
 autoService = "1.1.1"
 
 # Versions used by build-logic
-googleJavaFormat = "1.28.0"
+googleJavaFormat = "1.29.0"
 ktlint = "1.7.1"
 
 [libraries]
