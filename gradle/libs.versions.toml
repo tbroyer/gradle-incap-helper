@@ -18,7 +18,7 @@ googleJavaFormat = { module = "com.google.googlejavaformat:google-java-format", 
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 # Used in below bundle
-errorprone-core = "com.google.errorprone:error_prone_core:2.45.0"
+errorprone-core = "com.google.errorprone:error_prone_core:2.46.0"
 nullaway = "com.uber.nullaway:nullaway:0.12.15"
 
 [bundles]
