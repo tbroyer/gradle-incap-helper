@@ -26,6 +26,6 @@ nullaway = "com.uber.nullaway:nullaway:0.12.15"
 errorprone = [ "errorprone-core", "nullaway" ]
 
 [plugins]
-errorprone = "net.ltgt.errorprone:4.3.0"
+errorprone = "net.ltgt.errorprone:4.4.0"
 nullaway = "net.ltgt.nullaway:2.3.0"
 spotless = "com.diffplug.spotless:8.1.0"
