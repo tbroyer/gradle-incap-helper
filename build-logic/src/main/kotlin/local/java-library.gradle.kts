@@ -37,10 +37,6 @@ dependencies {
 tasks {
     withType<JavaCompile>().configureEach {
         options.compilerArgs.addAll(listOf("-Werror", "-Xlint:all,-processing"))
-        if (!JavaVersion.current().isCompatibleWith(JavaVersion.VERSION_25)) {
-            // see https://github.com/uber/NullAway/wiki/JSpecify-Support#supported-jdk-versions
-            options.compilerArgs.add("-XDaddTypeAnnotationsToSymbol=true")
-        }
         options.errorprone {
             // XXX: text blocks aren't supported in --release 8
             // https://github.com/google/error-prone/issues/4931
