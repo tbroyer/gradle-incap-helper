@@ -27,5 +27,5 @@ errorprone = [ "errorprone-core", "nullaway" ]
 
 [plugins]
 errorprone = "net.ltgt.errorprone:5.0.0"
-nullaway = "net.ltgt.nullaway:2.4.0"
+nullaway = "net.ltgt.nullaway:3.0.0"
 spotless = "com.diffplug.spotless:8.2.1"
