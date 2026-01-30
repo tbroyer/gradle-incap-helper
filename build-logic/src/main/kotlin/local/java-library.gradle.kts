@@ -1,7 +1,6 @@
 package local
 
 import net.ltgt.gradle.errorprone.errorprone
-import net.ltgt.gradle.nullaway.nullaway
 
 plugins {
     id("local.java-base")
@@ -34,6 +33,9 @@ dependencies {
     )
 }
 
+nullaway {
+    jspecifyMode = true
+}
 tasks {
     withType<JavaCompile>().configureEach {
         options.compilerArgs.addAll(listOf("-Werror", "-Xlint:all,-processing"))
@@ -41,9 +43,6 @@ tasks {
             // XXX: text blocks aren't supported in --release 8
             // https://github.com/google/error-prone/issues/4931
             disable("StringConcatToTextBlock")
-            nullaway {
-                isJSpecifyMode = true
-            }
         }
     }
     javadoc {
