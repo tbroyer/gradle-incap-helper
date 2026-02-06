@@ -3,7 +3,7 @@
 autoService = "1.1.1"
 
 # Versions used by build-logic
-googleJavaFormat = "1.33.0"
+googleJavaFormat = "1.34.1"
 ktlint = "1.8.0"
 
 [libraries]
@@ -18,7 +18,7 @@ googleJavaFormat = { module = "com.google.googlejavaformat:google-java-format", 
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 # Used in below bundle
-errorprone-core = "com.google.errorprone:error_prone_core:2.46.0"
+errorprone-core = "com.google.errorprone:error_prone_core:2.47.0"
 nullaway = "com.uber.nullaway:nullaway:0.13.1"
 
 [bundles]
