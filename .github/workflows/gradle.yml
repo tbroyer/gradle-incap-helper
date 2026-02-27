@@ -33,7 +33,7 @@ jobs:
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: reports
           path: |
@@ -69,7 +69,7 @@ jobs:
 
       - name: Store reports
         if: always() && (steps.gradle-build.outcome == 'success' || steps.gradle-build.outcome == 'failure')
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: jdk-${{ matrix.java }}-tests
           path: |
