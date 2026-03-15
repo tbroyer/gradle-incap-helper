@@ -26,14 +26,6 @@ dependencies {
 
 tasks {
     test {
-        inputs
-            .files(
-                localMavenRepositories.asFileTree.matching {
-                    exclude("**/maven-metadata.*")
-                },
-            ).withPropertyName("testRepositories")
-            .withPathSensitivity(PathSensitivity.RELATIVE)
-
         val testJavaToolchain = project.findProperty("test.java-toolchain")
         testJavaToolchain?.also {
             val metadata =
@@ -46,11 +38,24 @@ tasks {
         }
 
         systemProperty("version", rootProject.version.toString())
-        // systemProperty doesn't support providers, so fake it with CommandLineArgumentProvider
-        jvmArgumentProviders.add(
-            CommandLineArgumentProvider {
-                listOf("-DtestRepositories=${localMavenRepositories.joinToString(File.pathSeparator) { relativePath(it) }}")
-            },
-        )
+
+        jvmArgumentProviders.add(TestRepositories(localMavenRepositories))
     }
+}
+
+class TestRepositories(
+    private val testRepositories: FileCollection,
+) : CommandLineArgumentProvider,
+    Named {
+    @InputFiles
+    @PathSensitive(PathSensitivity.RELATIVE)
+    fun getTestRepositories() =
+        testRepositories.asFileTree.matching {
+            exclude("**/maven-metadata.*")
+        }
+
+    @Internal
+    override fun getName() = "testRepositories"
+
+    override fun asArguments() = listOf("-DtestRepositories=${testRepositories.joinToString(File.pathSeparator)}")
 }

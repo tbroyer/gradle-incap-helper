@@ -69,7 +69,8 @@ val mavenPublication = createPublication("maven")
 
 tasks.withType<PublishToMavenRepository>().configureEach {
     if (repository == sonatypeRepository) {
-        onlyIf { publication == mavenPublication && publication.version != Project.DEFAULT_VERSION }
+        val predicate = provider { publication == mavenPublication && publication.version != Project.DEFAULT_VERSION }
+        onlyIf { predicate.get() }
     }
 }
 
@@ -104,7 +105,8 @@ tasks {
     }
     withType<PublishToMavenRepository>().configureEach {
         if (repository == localRepository) {
-            onlyIf { publication == localPublication }
+            val predicate = provider { publication == localPublication }
+            onlyIf { predicate.get() }
             dependsOn(cleanLocalRepository)
         }
     }
