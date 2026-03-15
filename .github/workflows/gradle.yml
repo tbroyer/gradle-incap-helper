@@ -12,8 +12,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
   cancel-in-progress: true
 
-# First build and test with JDK 21
-# Then run tests with JDK 8, 11, and 17
+# First build and test with JDK 25
+# Then run tests with JDK 8, 11, 17, and 21
 jobs:
   linux:
     runs-on: ubuntu-latest
@@ -23,7 +23,7 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '25'
 
       - uses: gradle/actions/setup-gradle@v5
 
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java: [ 8, 11, 17 ]
+        java: [ 8, 11, 17, 21 ]
     steps:
       - uses: actions/checkout@v6
 
@@ -54,7 +54,7 @@ jobs:
           distribution: 'temurin'
           java-version: |
             ${{ matrix.java }}
-            21
+            25
 
       - name: Setup environment
         run: |
