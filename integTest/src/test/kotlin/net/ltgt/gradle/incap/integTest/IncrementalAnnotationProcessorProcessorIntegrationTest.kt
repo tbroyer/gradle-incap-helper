@@ -16,6 +16,7 @@
 package net.ltgt.gradle.incap.integTest
 
 import com.google.common.truth.Truth.assertThat
+import org.gradle.jvm.toolchain.JavaLanguageVersion
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -30,6 +31,7 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
     @Rule
     val testProjectDir = TemporaryFolder()
 
+    private val testJavaToolchain = System.getProperty("test.java-toolchain") ?: JavaLanguageVersion.current().toString()
     private val testJavaHome = System.getProperty("test.java-home", System.getProperty("java.home"))
 
     private val version = System.getProperty("version")!!
@@ -44,7 +46,8 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
         // given
         testProjectDir.newFile("gradle.properties").outputStream().use {
             Properties().apply {
-                setProperty("org.gradle.java.home", testJavaHome)
+                setProperty("org.gradle.java.installations.auto-download", "false")
+                setProperty("org.gradle.java.installations.paths", testJavaHome)
                 store(it, null)
             }
         }
@@ -62,6 +65,11 @@ class IncrementalAnnotationProcessorProcessorIntegrationTest {
             """
             plugins {
                 `java-library`
+            }
+            java {
+                toolchain {
+                    languageVersion = JavaLanguageVersion.of($testJavaToolchain)
+                }
             }
             dependencies {
                 implementation("net.ltgt.gradle.incap:incap:$version")

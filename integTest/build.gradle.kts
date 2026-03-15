@@ -26,14 +26,15 @@ dependencies {
 
 tasks {
     test {
-        val testJavaToolchain = project.findProperty("test.java-toolchain")
+        val testJavaToolchain = project.findProperty("test.java-toolchain")?.toString()
         testJavaToolchain?.also {
             val metadata =
                 project.javaToolchains
                     .launcherFor {
-                        languageVersion.set(JavaLanguageVersion.of(testJavaToolchain.toString()))
+                        languageVersion.set(JavaLanguageVersion.of(testJavaToolchain))
                     }.get()
                     .metadata
+            systemProperty("test.java-toolchain", testJavaToolchain)
             systemProperty("test.java-home", metadata.installationPath.asFile.canonicalPath)
         }
 
