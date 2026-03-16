@@ -65,13 +65,6 @@ val mavenPublication =
         }
     }
 
-tasks.withType<PublishToMavenRepository>().configureEach {
-    if (repository == sonatypeRepository) {
-        val predicate = provider { publication.version != Project.DEFAULT_VERSION }
-        onlyIf { predicate.get() }
-    }
-}
-
 signing {
     useGpgCmd()
     isRequired = !isSnapshot
@@ -79,7 +72,7 @@ signing {
 }
 
 inline val Project.isSnapshot
-    get() = version.toString().endsWith("-SNAPSHOT") || version == Project.DEFAULT_VERSION
+    get() = version.toString().endsWith("-SNAPSHOT")
 
 //
 // For integration tests
