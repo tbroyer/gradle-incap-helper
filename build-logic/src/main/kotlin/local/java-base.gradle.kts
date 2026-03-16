@@ -8,8 +8,7 @@ plugins {
 spotless {
     java {
         googleJavaFormat(
-            project
-                .the<VersionCatalogsExtension>()
+            versionCatalogs
                 .named("libs")
                 .findVersion("googleJavaFormat")
                 .orElseThrow()

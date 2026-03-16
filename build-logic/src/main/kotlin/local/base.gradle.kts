@@ -7,8 +7,7 @@ plugins {
 spotless {
     kotlinGradle {
         ktlint(
-            project
-                .the<VersionCatalogsExtension>()
+            versionCatalogs
                 .named("libs")
                 .findVersion("ktlint")
                 .orElseThrow()
