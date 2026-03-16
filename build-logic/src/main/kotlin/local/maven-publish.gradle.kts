@@ -2,84 +2,59 @@ package local
 
 plugins {
     id("local.java-library")
-    `maven-publish`
+    id("com.vanniktech.maven.publish")
     signing
 }
 
 group = "net.ltgt.gradle.incap"
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    pom {
+        name = provider { "${project.group}:${project.name}" }
+        description = provider { project.description ?: name.get() }
+        url = "https://github.com/tbroyer/gradle-incap-helper"
+        developers {
+            developer {
+                name = "Thomas Broyer"
+                email = "t.broyer@ltgt.net"
+            }
+        }
+        scm {
+            connection = "https://github.com/tbroyer/gradle-incap-helper.git"
+            developerConnection = "scm:git:ssh://github.com:tbroyer/gradle-incap-helper.git"
+            url = "https://github.com/tbroyer/gradle-incap-helper"
+        }
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+    }
 }
 
-val sonatypeRepository =
-    publishing.repositories.maven {
-        name = "sonatype"
-        url =
-            if (isSnapshot) {
-                uri("https://oss.sonatype.org/content/repositories/snapshots/")
-            } else {
-                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            }
-        credentials {
-            username = project.findProperty("ossrhUsername") as? String
-            password = project.findProperty("ossrhPassword") as? String
+publishing.publications.withType<MavenPublication> {
+    versionMapping {
+        usage("java-api") {
+            fromResolutionOf("runtimeClasspath")
+        }
+        usage("java-runtime") {
+            fromResolutionResult()
         }
     }
-
-val mavenPublication =
-    publishing.publications.create<MavenPublication>("maven") {
-        from(components["java"])
-
-        versionMapping {
-            usage("java-api") {
-                fromResolutionOf("runtimeClasspath")
-            }
-            usage("java-runtime") {
-                fromResolutionResult()
-            }
-        }
-
-        pom {
-            name = provider { "$groupId:$artifactId" }
-            description = provider { project.description ?: name.get() }
-            url = "https://github.com/tbroyer/gradle-incap-helper"
-            developers {
-                developer {
-                    name = "Thomas Broyer"
-                    email = "t.broyer@ltgt.net"
-                }
-            }
-            scm {
-                connection = "https://github.com/tbroyer/gradle-incap-helper.git"
-                developerConnection = "scm:git:ssh://github.com:tbroyer/gradle-incap-helper.git"
-                url = "https://github.com/tbroyer/gradle-incap-helper"
-            }
-            licenses {
-                license {
-                    name = "The Apache License, Version 2.0"
-                    url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
-                }
-            }
-        }
-    }
+}
 
 signing {
     useGpgCmd()
-    isRequired = !isSnapshot
-    sign(mavenPublication)
 }
-
-inline val Project.isSnapshot
-    get() = version.toString().endsWith("-SNAPSHOT")
 
 //
 // For integration tests
 //
 // Inspired by https://github.com/sigstore/sigstore-java/pull/264/files
 
-// name must already be capitalized for computing task name below
 val localRepoDir = layout.buildDirectory.dir("local-maven-repo")
 
 val localRepository =
@@ -98,6 +73,9 @@ tasks {
         }
     }
 }
+
+// We need the plugin to create the "maven" publication
+mavenPublishing.configureBasedOnAppliedPlugins()
 
 configurations {
     consumable("localRepoElements") {
