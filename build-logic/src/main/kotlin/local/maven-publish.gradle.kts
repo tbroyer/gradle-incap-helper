@@ -2,94 +2,64 @@ package local
 
 plugins {
     id("local.java-library")
-    `maven-publish`
+    id("com.vanniktech.maven.publish")
     signing
 }
 
 group = "net.ltgt.gradle.incap"
 
-java {
-    withJavadocJar()
-    withSourcesJar()
+mavenPublishing {
+    publishToMavenCentral()
+    signAllPublications()
+    pom {
+        name = provider { "${project.group}:${project.name}" }
+        description = provider { project.description ?: name.get() }
+        url = "https://github.com/tbroyer/gradle-incap-helper"
+        developers {
+            developer {
+                name = "Thomas Broyer"
+                email = "t.broyer@ltgt.net"
+            }
+        }
+        scm {
+            connection = "https://github.com/tbroyer/gradle-incap-helper.git"
+            developerConnection = "scm:git:ssh://github.com:tbroyer/gradle-incap-helper.git"
+            url = "https://github.com/tbroyer/gradle-incap-helper"
+        }
+        licenses {
+            license {
+                name = "The Apache License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+    }
 }
 
-val sonatypeRepository =
-    publishing.repositories.maven {
-        name = "sonatype"
-        url =
-            if (isSnapshot) {
-                uri("https://oss.sonatype.org/content/repositories/snapshots/")
-            } else {
-                uri("https://oss.sonatype.org/service/local/staging/deploy/maven2/")
-            }
-        credentials {
-            username = project.findProperty("ossrhUsername") as? String
-            password = project.findProperty("ossrhPassword") as? String
+publishing.publications.withType<MavenPublication> {
+    versionMapping {
+        usage("java-api") {
+            fromResolutionOf("runtimeClasspath")
         }
-    }
-
-fun createPublication(publicationName: String) =
-    publishing.publications.create<MavenPublication>(publicationName) {
-        from(components["java"])
-
-        versionMapping {
-            usage("java-api") {
-                fromResolutionOf("runtimeClasspath")
-            }
-            usage("java-runtime") {
-                fromResolutionResult()
-            }
+        usage("java-runtime") {
+            fromResolutionResult()
         }
-
-        pom {
-            name = provider { "$groupId:$artifactId" }
-            description = provider { project.description ?: name.get() }
-            url = "https://github.com/tbroyer/gradle-incap-helper"
-            developers {
-                developer {
-                    name = "Thomas Broyer"
-                    email = "t.broyer@ltgt.net"
-                }
-            }
-            scm {
-                connection = "https://github.com/tbroyer/gradle-incap-helper.git"
-                developerConnection = "scm:git:ssh://github.com:tbroyer/gradle-incap-helper.git"
-                url = "https://github.com/tbroyer/gradle-incap-helper"
-            }
-            licenses {
-                license {
-                    name = "The Apache License, Version 2.0"
-                    url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
-                }
-            }
-        }
-    }
-
-val mavenPublication = createPublication("maven")
-
-tasks.withType<PublishToMavenRepository>().configureEach {
-    if (repository == sonatypeRepository) {
-        val predicate = provider { publication.version != Project.DEFAULT_VERSION }
-        onlyIf { predicate.get() }
     }
 }
 
 signing {
     useGpgCmd()
-    isRequired = !isSnapshot
-    sign(mavenPublication)
 }
-
-inline val Project.isSnapshot
-    get() = version.toString().endsWith("-SNAPSHOT")
 
 //
 // For integration tests
 //
 // Inspired by https://github.com/sigstore/sigstore-java/pull/264/files
 
+// Use a dedicated publication so we can skip signing it
 // name must already be capitalized for computing task name below
-val localPublication = createPublication("Local")
+val localPublication = publishing.publications.create<MavenPublication>("Local") {
+    from(components["java"])
+}
 
 val localRepoDir = layout.buildDirectory.dir("local-maven-repo")
 
@@ -109,6 +79,10 @@ tasks {
             onlyIf { predicate.get() }
             dependsOn(cleanLocalRepository)
         }
+    }
+    // Disable signing so it passes on CI
+    named("sign${localPublication.name}Publication") {
+        enabled = false
     }
 }
 
