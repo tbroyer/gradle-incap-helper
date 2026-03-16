@@ -28,8 +28,8 @@ val sonatypeRepository =
         }
     }
 
-fun createPublication(publicationName: String) =
-    publishing.publications.create<MavenPublication>(publicationName) {
+val mavenPublication =
+    publishing.publications.create<MavenPublication>("maven") {
         from(components["java"])
 
         versionMapping {
@@ -65,11 +65,9 @@ fun createPublication(publicationName: String) =
         }
     }
 
-val mavenPublication = createPublication("maven")
-
 tasks.withType<PublishToMavenRepository>().configureEach {
     if (repository == sonatypeRepository) {
-        val predicate = provider { publication == mavenPublication && publication.version != Project.DEFAULT_VERSION }
+        val predicate = provider { publication.version != Project.DEFAULT_VERSION }
         onlyIf { predicate.get() }
     }
 }
@@ -89,8 +87,6 @@ inline val Project.isSnapshot
 // Inspired by https://github.com/sigstore/sigstore-java/pull/264/files
 
 // name must already be capitalized for computing task name below
-val localPublication = createPublication("Local")
-
 val localRepoDir = layout.buildDirectory.dir("local-maven-repo")
 
 val localRepository =
@@ -105,8 +101,6 @@ tasks {
     }
     withType<PublishToMavenRepository>().configureEach {
         if (repository == localRepository) {
-            val predicate = provider { publication == localPublication }
-            onlyIf { predicate.get() }
             dependsOn(cleanLocalRepository)
         }
     }
@@ -121,7 +115,7 @@ configurations {
         }
         outgoing {
             artifact(localRepoDir) {
-                builtBy(tasks.named("publish${localPublication.name}PublicationTo${localRepository.name}Repository"))
+                builtBy(tasks.named("publishMavenPublicationTo${localRepository.name}Repository"))
             }
         }
     }
