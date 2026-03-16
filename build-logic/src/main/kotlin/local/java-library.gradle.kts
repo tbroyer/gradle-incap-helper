@@ -11,7 +11,7 @@ plugins {
 
 tasks.withType<JavaCompile>().configureEach {
     options.release = 8
-    // release=8 is deprecated with JDK 21
+    // release=8 is deprecated with JDK 25
     options.compilerArgs.add("-Xlint:all,-options")
 }
 project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
@@ -25,8 +25,7 @@ project.findProperty("test.java-toolchain")?.also { testJavaToolchain ->
 
 dependencies {
     errorprone(
-        project
-            .the<VersionCatalogsExtension>()
+        versionCatalogs
             .named("libs")
             .findBundle("errorprone")
             .orElseThrow(),
@@ -47,8 +46,5 @@ tasks {
     }
     javadoc {
         (options as CoreJavadocOptions).addBooleanOption("Xdoclint:all,-missing", true)
-        if (JavaVersion.current().isJava9Compatible) {
-            (options as CoreJavadocOptions).addBooleanOption("html5", true)
-        }
     }
 }
