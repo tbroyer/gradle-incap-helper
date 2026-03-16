@@ -14,6 +14,7 @@ dependencies {
     implementation(plugin(libs.plugins.spotless))
     implementation(plugin(libs.plugins.errorprone))
     implementation(plugin(libs.plugins.nullaway))
+    implementation(plugin(libs.plugins.vanniktechMavenPublish))
 }
 
 // Simplify declaration of dependencies to plugins
