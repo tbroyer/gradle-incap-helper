@@ -28,5 +28,5 @@ errorprone = [ "errorprone-core", "nullaway" ]
 [plugins]
 errorprone = "net.ltgt.errorprone:5.1.0"
 nullaway = "net.ltgt.nullaway:3.0.0"
-spotless = "com.diffplug.spotless:8.2.1"
-vanniktechMavenPublish = "com.vanniktech.maven.publish:0.34.0"
+spotless = "com.diffplug.spotless:8.4.0"
+vanniktechMavenPublish = "com.vanniktech.maven.publish:0.36.0"
