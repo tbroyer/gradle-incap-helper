@@ -71,7 +71,7 @@ val localRepository =
     }
 
 tasks {
-    val cleanLocalRepository by registering(Delete::class) {
+    val cleanLocalRepository = register<Delete>("cleanLocalRepository") {
         delete(localRepoDir)
     }
     withType<PublishToMavenRepository>().configureEach {
