@@ -4,16 +4,17 @@ plugins {
 }
 
 // XXX: separate "dependency bucket" from resolvable configuration?
-val localMavenRepositories by configurations.creating {
-    isCanBeDeclared = true
-    isCanBeConsumed = false
-    isCanBeResolved = true
-    // Same attributes as in local.maven-publish convention plugin
-    attributes {
-        attribute(Category.CATEGORY_ATTRIBUTE, objects.named("maven-repository"))
-        attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+val localMavenRepositories =
+    configurations.create("localMavenRepositories") {
+        isCanBeDeclared = true
+        isCanBeConsumed = false
+        isCanBeResolved = true
+        // Same attributes as in local.maven-publish convention plugin
+        attributes {
+            attribute(Category.CATEGORY_ATTRIBUTE, objects.named("maven-repository"))
+            attribute(Bundling.BUNDLING_ATTRIBUTE, objects.named(Bundling.EXTERNAL))
+        }
     }
-}
 
 dependencies {
     testImplementation(libs.junit)
