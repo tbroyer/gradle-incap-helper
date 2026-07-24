@@ -39,7 +39,7 @@ tasks {
             systemProperty("test.java-home", metadata.installationPath.asFile.canonicalPath)
         }
 
-        systemProperty("version", rootProject.version.toString())
+        systemProperty("version", project.version.toString())
 
         jvmArgumentProviders.add(TestRepositories(localMavenRepositories))
     }

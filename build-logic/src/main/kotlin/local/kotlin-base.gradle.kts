@@ -13,6 +13,6 @@ spotless {
                 .orElseThrow()
                 .requiredVersion,
         )
-        licenseHeaderFile(rootProject.file("LICENSE.header"))
+        licenseHeaderFile(rootProject.isolated.projectDirectory.file("LICENSE.header"))
     }
 }
