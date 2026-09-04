@@ -19,14 +19,14 @@ ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 # Used in below bundle
 errorprone-core = "com.google.errorprone:error_prone_core:2.50.0"
-nullaway = "com.uber.nullaway:nullaway:0.14.0"
+nullaway = "com.uber.nullaway:nullaway:0.14.1"
 
 [bundles]
 # Used by build-logic
 errorprone = [ "errorprone-core", "nullaway" ]
 
 [plugins]
-errorprone = "net.ltgt.errorprone:5.1.0"
-nullaway = "net.ltgt.nullaway:3.1.0"
-spotless = "com.diffplug.spotless:8.10.0"
+errorprone = "net.ltgt.errorprone:5.1.1"
+nullaway = "net.ltgt.nullaway:3.2.0"
+spotless = "com.diffplug.spotless:8.10.1"
 vanniktechMavenPublish = "com.vanniktech.maven.publish:0.37.0"
