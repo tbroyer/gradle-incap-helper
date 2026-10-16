@@ -3,13 +3,13 @@
 autoService = "1.1.1"
 
 # Versions used by build-logic
-googleJavaFormat = "1.36.1"
+googleJavaFormat = "1.37.0"
 ktlint = "1.8.0"
 
 [libraries]
 autoService = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
 autoService-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoService" }
-compileTesting = "com.google.testing.compile:compile-testing:0.23.0"
+compileTesting = "com.google.testing.compile:compile-testing:0.24.0"
 junit = "junit:junit:4.13.2"
 truth = "com.google.truth:truth:1.4.5"
 
@@ -27,6 +27,6 @@ errorprone = [ "errorprone-core", "nullaway" ]
 
 [plugins]
 errorprone = "net.ltgt.errorprone:5.1.1"
-nullaway = "net.ltgt.nullaway:3.2.0"
-spotless = "com.diffplug.spotless:8.10.3"
+nullaway = "net.ltgt.nullaway:3.3.0"
+spotless = "com.diffplug.spotless:8.10.4"
 vanniktechMavenPublish = "com.vanniktech.maven.publish:0.37.0"
