@@ -100,11 +100,10 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
           && processingEnv.getTypeUtils().isSubtype(e.asType(), abstractProcessor.asType())) {
         Element getSupportedOptions =
             processingEnv.getElementUtils().getAllMembers((TypeElement) e).stream()
-                .filter(
-                    method ->
-                        method.getKind() == ElementKind.METHOD
-                            && method.getSimpleName().contentEquals(GET_SUPPORTED_OPTIONS)
-                            && ((ExecutableElement) method).getParameters().isEmpty())
+                .filter(method ->
+                    method.getKind() == ElementKind.METHOD
+                        && method.getSimpleName().contentEquals(GET_SUPPORTED_OPTIONS)
+                        && ((ExecutableElement) method).getParameters().isEmpty())
                 .findFirst()
                 .orElseThrow(AssertionError::new);
         if (abstractProcessor.equals(getSupportedOptions.getEnclosingElement())) {
@@ -185,11 +184,10 @@ public class IncrementalAnnotationProcessorProcessor extends AbstractProcessor {
 
   private AnnotationMirror getAnnotationMirror(Element element) {
     return element.getAnnotationMirrors().stream()
-        .filter(
-            annotationMirror ->
-                ((TypeElement) annotationMirror.getAnnotationType().asElement())
-                    .getQualifiedName()
-                    .contentEquals(ANNOTATION_NAME))
+        .filter(annotationMirror ->
+            ((TypeElement) annotationMirror.getAnnotationType().asElement())
+                .getQualifiedName()
+                .contentEquals(ANNOTATION_NAME))
         .findFirst()
         .orElseThrow(IllegalArgumentException::new);
   }
