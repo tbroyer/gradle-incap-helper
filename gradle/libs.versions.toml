@@ -18,7 +18,7 @@ googleJavaFormat = { module = "com.google.googlejavaformat:google-java-format", 
 ktlint = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint" }
 
 # Used in below bundle
-errorprone-core = "com.google.errorprone:error_prone_core:2.51.0"
+errorprone-core = "com.google.errorprone:error_prone_core:2.52.0"
 nullaway = "com.uber.nullaway:nullaway:0.14.3"
 
 [bundles]
@@ -26,7 +26,7 @@ nullaway = "com.uber.nullaway:nullaway:0.14.3"
 errorprone = [ "errorprone-core", "nullaway" ]
 
 [plugins]
-errorprone = "net.ltgt.errorprone:5.1.1"
+errorprone = "net.ltgt.errorprone:5.2.0"
 nullaway = "net.ltgt.nullaway:3.3.0"
-spotless = "com.diffplug.spotless:8.10.4"
+spotless = "com.diffplug.spotless:8.11.0"
 vanniktechMavenPublish = "com.vanniktech.maven.publish:0.37.0"
